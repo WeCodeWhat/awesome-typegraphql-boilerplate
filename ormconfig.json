@@ -5,7 +5,7 @@
 	"name": "default",
 	"username": "postgres",
 	"password": "Cqt20011101",
-	"database": "apollo-ts",
+	"database": "gitgab-db",
 	"synchronize": true,
 	"logging": true,
 	"entities": ["src/entity/**/*.ts"],

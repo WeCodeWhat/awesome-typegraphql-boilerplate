@@ -49,7 +49,7 @@
 	},
 	"scripts": {
 		"start": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development  & ts-node-dev --respawn src/index.ts \" ",
-		"test": "SET NODE_ENV=test & ts-node-dev --respawn src/index.ts",
+		"test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test  & ts-node-dev --respawn src/index.ts \"",
 		"gen-env-types": "npx gen-env-types .env -o src/types/env.d.ts -e .",
 		"prod": "SET NODE_ENV=production  & ts-node src/index.ts"
 	},

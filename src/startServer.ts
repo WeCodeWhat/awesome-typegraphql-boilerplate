@@ -6,35 +6,31 @@ import genSchema from "./utils/genSchema";
 import { sessionConfiguration } from "./helper/session";
 import { REDIS } from "./helper/redis";
 import { DEV_BASE_URL } from "./constants/global-variables";
-import { EnvironmentType } from "./utils/environmentType";
+import { env, EnvironmentType } from "./utils/environmentType";
 import { formatValidationError } from "./utils/formatValidationError";
 import { GQLContext } from "./utils/graphql-utils";
 import { ContextParameters } from "graphql-yoga/dist/types";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 export const startServer = async () => {
-	if (process.env.NODE_ENV !== EnvironmentType.PROD) {
+	if (!env(EnvironmentType.PROD)) {
 		await new REDIS().server.flushall();
 	}
 	const connectionOptions = await getConnectionOptions("default");
 	const extendedOptions = {
 		...connectionOptions,
-		dropSchema: process.env.NODE_ENV?.trim() === EnvironmentType.TEST,
+		database: (connectionOptions.database +
+			(env(EnvironmentType.TEST) ? "-testing" : "")) as any,
+		dropSchema: env(EnvironmentType.TEST),
 		namingStrategy: new SnakeNamingStrategy(),
 	};
-	if (
-		process.env.DATABASE_URL &&
-		process.env.NODE_ENV?.trim() === EnvironmentType.PROD
-	) {
+	if (process.env.DATABASE_URL && env(EnvironmentType.PROD)) {
 		Object.assign(extendedOptions, {
 			url: process.env.DATABASE_URL,
-			ssl:
-				process.env.NODE_ENV?.trim() === EnvironmentType.PROD
-					? { rejectUnauthorized: false }
-					: false,
+			ssl: env(EnvironmentType.PROD) ? { rejectUnauthorized: false } : false,
 		});
 	}
-	await createConnection(extendedOptions);
+	const conn = await createConnection(extendedOptions);
 
 	const server = new GraphQLServer({
 		schema: await genSchema(),
@@ -61,5 +57,11 @@ export const startServer = async () => {
 		},
 	});
 
-	console.log(`Server is ready at http://localhost:${app.address().port}`);
+	const beautifiedLog = {
+		ENVIRONMENT: process.env.NODE_ENV?.trim(),
+		PORT: app.address().port,
+		DATABASE: conn.options.database,
+	};
+
+	console.table(beautifiedLog);
 };
