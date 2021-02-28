@@ -13,7 +13,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { v4 as uuidv4 } from "uuid";
-import { Chat } from "./Chat";
+import { Message } from "./Message";
 @ObjectType("ConversationSchema")
 @Entity("Conversation")
 export class Conversation extends BaseEntity {
@@ -38,9 +38,9 @@ export class Conversation extends BaseEntity {
 	@JoinTable()
 	participants: User[];
 
-	@Field(() => [Chat!])
-	@OneToMany(() => Chat, (chat) => chat.conversation)
-	messages: Chat[];
+	@Field(() => [Message!])
+	@OneToMany(() => Message, (msg) => msg.conversation)
+	messages: Message[];
 
 	@Field(() => String!)
 	@Column("text", { nullable: true })
@@ -54,7 +54,7 @@ export class Conversation extends BaseEntity {
 	}
 
 	@BeforeInsert()
-	async addOwnerToMembers() {
+	async addOwnerToParticipants() {
 		if (!this.participants) {
 			this.participants = [];
 			this.participants.push(this.owner);

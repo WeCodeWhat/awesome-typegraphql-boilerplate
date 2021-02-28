@@ -10,6 +10,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { Conversation } from "./Conversation";
+import { UserStatus } from "./UserStatus";
 
 @ObjectType("UserSchema")
 @Entity("Users")
@@ -36,6 +37,10 @@ export class User extends BaseEntity {
 
 	@ManyToMany(() => Conversation, (conversation) => conversation.participants)
 	conversations: Conversation[];
+
+	@Field(() => UserStatus!)
+	@Column("text", { nullable: true, default: UserStatus.none })
+	status: UserStatus;
 
 	// External
 	@Field(() => String!)

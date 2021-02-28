@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 
 @InputType()
-export class AddNewConversationInput {
+export class CreateConversationInput {
 	@Field()
 	name: string;
 }

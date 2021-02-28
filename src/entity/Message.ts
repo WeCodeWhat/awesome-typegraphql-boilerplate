@@ -11,9 +11,9 @@ import { User } from "./User";
 import { v4 as uuidv4 } from "uuid";
 import { Conversation } from "./Conversation";
 
-@ObjectType("ChatSchema")
-@Entity("Chat")
-export class Chat extends BaseEntity {
+@ObjectType("MessageSchema")
+@Entity("Message")
+export class Message extends BaseEntity {
 	@Field(() => ID)
 	@PrimaryColumn("uuid")
 	id: String;
@@ -25,6 +25,10 @@ export class Chat extends BaseEntity {
 	@Field(() => String!)
 	@Column("text", { nullable: false })
 	message: String;
+
+	@Field(() => Boolean!)
+	@Column("bool", { nullable: false, default: false })
+	unread: Boolean;
 
 	@Field(() => String!)
 	@Column("text", { nullable: false, default: new Date().toISOString() })

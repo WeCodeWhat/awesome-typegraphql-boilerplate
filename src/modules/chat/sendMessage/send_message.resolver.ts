@@ -9,24 +9,24 @@ import {
 	Ctx,
 	Publisher,
 } from "type-graphql";
-import { ChatRepository } from "../../repos/ChatRepo";
+import { ChatRepository } from "../../repos/chat_repository";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { SendMessageInput } from "./SendMessage.input";
-import { ConversationRepository } from "../../repos/ConversationRepo";
+import { SendMessageInput } from "./send_message.input";
+import { ConversationRepository } from "../../repos/conversation_repository";
 import { Error as ErrorSchema } from "../../common/error.schema";
 import { ErrorMessage } from "../../common/ErrorMessage";
-import { ChatPayload } from "../../common/chatPayload.schema";
-import { Chat } from "../../../entity/Chat";
+import { ChatPayload } from "./chatPayload.schema";
+import { Message } from "../../../entity/Message";
 import { isAuth } from "../../middleware/isAuth";
 import { GQLContext } from "../../../utils/graphql-utils";
-import { UserRepository } from "../../repos/UserRepo";
-import { NewConversationMessageInput } from "./NewConversationMessage.input";
+import { UserRepository } from "../../repos/user_repository";
+import { NewConversationMessageInput } from "./new_conversation_message.input";
 
 enum SubTopic {
 	NEW_CONVERSATION_MESSAGE_ADDED = "NEW_CONVERSATION_MESSAGE_ADDED",
 }
 
-@Resolver((of) => Chat)
+@Resolver((of) => Message)
 class SendMessageResolver {
 	@InjectRepository(ChatRepository)
 	private readonly chatRepository: ChatRepository;

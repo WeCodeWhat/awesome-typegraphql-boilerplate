@@ -1,15 +1,15 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Chat } from "../../entity/Chat";
+import { Message } from "../../entity/Message";
 import { Conversation } from "../../entity/Conversation";
 import { User } from "../../entity/User";
 
 @EntityRepository(Conversation)
 export class ConversationRepository extends Repository<Conversation> {
-	async findMessageAndUpdate(conversation: Conversation, chatMessage: Chat) {
+	async findMessageAndUpdate(conversation: Conversation, chatMessage: Message) {
 		if (conversation.messages) {
 			conversation.messages.push(chatMessage);
 		} else {
-			const chats: Chat[] = [];
+			const chats: Message[] = [];
 			chats.push(chatMessage);
 			conversation.messages = chats;
 		}
