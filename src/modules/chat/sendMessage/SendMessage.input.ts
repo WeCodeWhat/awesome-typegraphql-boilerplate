@@ -3,7 +3,7 @@ import { Field, InputType } from "type-graphql";
 @InputType()
 export class SendMessageInput {
 	@Field()
-	roomId: string;
+	conversationId: string;
 
 	@Field()
 	message: string;

@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
-import { Room } from "./Room";
+import { Conversation } from "./Conversation";
 
 @ObjectType("UserSchema")
 @Entity("Users")
@@ -34,8 +34,9 @@ export class User extends BaseEntity {
 	@Column({ nullable: true })
 	lastName: string;
 
-	@ManyToMany(() => Room, (room) => room.members)
-	room: Room[];
+	@ManyToMany(() => Conversation, (conversation) => conversation.participants)
+	conversations: Conversation[];
+
 	// External
 	@Field(() => String!)
 	name(@Root() parent: User): string {

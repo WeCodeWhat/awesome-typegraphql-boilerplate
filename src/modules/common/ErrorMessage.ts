@@ -3,5 +3,5 @@ export enum ErrorMessage {
 	passwordIsNotMatch = "Password is not match",
 	inValidEmailAddress = "Invalid email address",
 	emailIsRegister = "Email is already registered",
-	roomIdIsNotValid = "Room ID is not valid",
+	conversationIdIsNotValid = "Conversation ID is not valid",
 }

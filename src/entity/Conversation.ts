@@ -14,9 +14,9 @@ import {
 import { User } from "./User";
 import { v4 as uuidv4 } from "uuid";
 import { Chat } from "./Chat";
-@ObjectType("RoomSchema")
-@Entity("Room")
-export class Room extends BaseEntity {
+@ObjectType("ConversationSchema")
+@Entity("Conversation")
+export class Conversation extends BaseEntity {
 	@Field(() => ID)
 	@PrimaryColumn("uuid")
 	id: string;
@@ -34,12 +34,12 @@ export class Room extends BaseEntity {
 	owner: User;
 
 	@Field(() => [User!])
-	@ManyToMany(() => User, (user) => user.room)
+	@ManyToMany(() => User, (user) => user.conversations)
 	@JoinTable()
-	members: User[];
+	participants: User[];
 
 	@Field(() => [Chat!])
-	@OneToMany(() => Chat, (chat) => chat.room)
+	@OneToMany(() => Chat, (chat) => chat.conversation)
 	messages: Chat[];
 
 	@Field(() => String!)
@@ -55,11 +55,11 @@ export class Room extends BaseEntity {
 
 	@BeforeInsert()
 	async addOwnerToMembers() {
-		if (!this.members) {
-			this.members = [];
-			this.members.push(this.owner);
+		if (!this.participants) {
+			this.participants = [];
+			this.participants.push(this.owner);
 		} else {
-			this.members.push(this.owner);
+			this.participants.push(this.owner);
 		}
 	}
 

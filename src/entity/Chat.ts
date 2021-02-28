@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { v4 as uuidv4 } from "uuid";
-import { Room } from "./Room";
+import { Conversation } from "./Conversation";
 
 @ObjectType("ChatSchema")
 @Entity("Chat")
@@ -30,8 +30,8 @@ export class Chat extends BaseEntity {
 	@Column("text", { nullable: false, default: new Date().toISOString() })
 	createdAt: String;
 
-	@ManyToOne(() => Room, (room) => room.messages)
-	room: Room;
+	@ManyToOne(() => Conversation, (conversation) => conversation.messages)
+	conversation: Conversation;
 
 	@BeforeInsert()
 	async addId() {

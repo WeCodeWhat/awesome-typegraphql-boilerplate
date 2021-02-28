@@ -17,7 +17,7 @@ export const YUP_REGISTER = yup.object().shape({
 	password: sharedSchema.password,
 });
 
-export const YUP_ROOMCRUD = yup.object().shape({
+export const YUP_CONVERSATION_CRUD = yup.object().shape({
 	name: yup.string().min(1).max(30),
 });
 

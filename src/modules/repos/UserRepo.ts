@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Room } from "../../entity/Room";
+import { Conversation } from "../../entity/Conversation";
 import { User } from "../../entity/User";
 import { ErrorMessage } from "../common/ErrorMessage";
 
@@ -32,13 +32,13 @@ export class UserRepository extends Repository<User> {
 
 		return null;
 	}
-	async findRoomAndUpdate(user: User, room: Room) {
-		if (user?.room) {
-			user?.room.push(room);
+	async findConversationAndUpdate(user: User, conversation: Conversation) {
+		if (user?.conversations) {
+			user?.conversations.push(conversation);
 		} else {
-			const rooms: Room[] = [];
-			rooms.push(room);
-			user.room = rooms;
+			const conversations: Conversation[] = [];
+			conversations.push(conversation);
+			user.conversations = conversations;
 		}
 
 		return user.save();

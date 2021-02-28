@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 
 @InputType()
-export class NewRoomMessageInput {
+export class AddNewConversationInput {
 	@Field()
-	roomId: string;
+	name: string;
 }

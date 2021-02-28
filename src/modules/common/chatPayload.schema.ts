@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { Room } from "../../entity/Room";
+import { Conversation } from "../../entity/Conversation";
 import { User } from "../../entity/User";
 
 @ObjectType("ChatPayload")
@@ -8,6 +8,6 @@ export class ChatPayload {
 	message: String;
 	@Field(() => User!)
 	sender: User;
-	@Field(() => Room!)
-	room: Room;
+	@Field(() => Conversation!)
+	conversation: Conversation;
 }
