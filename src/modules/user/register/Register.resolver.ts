@@ -9,7 +9,7 @@ import {
 import { User } from "../../../entity/User";
 import { Error as ErrorSchema } from "../../common/error.schema";
 import { RegisterInput } from "./register.input";
-import { UserRepository } from "../../repos/user_repository";
+import { UserRepository } from "../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { GQLContext } from "../../../utils/graphql-utils";
 import { yupValidateMiddleware } from "../../middleware/yupValidate";

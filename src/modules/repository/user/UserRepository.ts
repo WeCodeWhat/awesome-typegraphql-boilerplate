@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Conversation } from "../../entity/Conversation";
-import { User } from "../../entity/User";
-import { ErrorMessage } from "../common/ErrorMessage";
+import { Conversation } from "../../../entity/Conversation";
+import { User } from "../../../entity/User";
+import { ErrorMessage } from "../../common/ErrorMessage";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -33,6 +33,7 @@ export class UserRepository extends Repository<User> {
 		return null;
 	}
 	async findConversationAndUpdate(user: User, conversation: Conversation) {
+		console.log(conversation);
 		if (user?.conversations) {
 			user?.conversations.push(conversation);
 		} else {
@@ -40,7 +41,6 @@ export class UserRepository extends Repository<User> {
 			conversations.push(conversation);
 			user.conversations = conversations;
 		}
-
 		return user.save();
 	}
 }

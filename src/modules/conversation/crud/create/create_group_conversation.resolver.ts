@@ -6,25 +6,25 @@ import { GQLContext } from "../../../../utils/graphql-utils";
 import { YUP_CONVERSATION_CRUD } from "../../../common/yupSchema";
 import { isAuth } from "../../../middleware/isAuth";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
-import { ConversationRepository } from "../../../repos/conversation_repository";
-import { UserRepository } from "../../../repos/user_repository";
-import { CreateConversationInput } from "./create_conversation";
+import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
+import { UserRepository } from "../../../repository/user/UserRepository";
+import { CreateGroupConversationInput } from "./create_group_conversation.input";
 import { Error as ErrorSchema } from "../../../common/error.schema";
 
 @Resolver((of) => Conversation)
-class CreateConversation {
-	@InjectRepository(ConversationRepository)
-	private readonly conversationRepository: ConversationRepository;
+class CreateGroupConversation {
+	@InjectRepository(GroupConversationRepository)
+	private readonly groupConversationRepository: GroupConversationRepository;
 	@InjectRepository(UserRepository)
 	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_CRUD))
 	@Mutation(() => ErrorSchema!, { nullable: true })
-	async createConversation(
-		@Arg("data") { name }: CreateConversationInput,
+	async createGroupConversation(
+		@Arg("data") { name, visibility }: CreateGroupConversationInput,
 		@Ctx() { session }: GQLContext
 	) {
-		const conversation = await this.conversationRepository.find({
+		const conversation = await this.groupConversationRepository.find({
 			where: { name },
 		});
 		if (conversation.length > 0) {
@@ -36,15 +36,18 @@ class CreateConversation {
 		const user = await this.userRepository.findOne({
 			where: { id: session.userId },
 		});
-		await this.userRepository.findConversationAndUpdate(
-			user as User,
-			conversation[0]
-		);
-		const createdConversation = await this.conversationRepository.create({
+		const createdConversation = await this.groupConversationRepository.create({
 			name,
+			visibility,
 			owner: user,
 		});
-		await this.conversationRepository.findMembersAndUpdate(
+
+		await this.userRepository.findConversationAndUpdate(
+			user as User,
+			createdConversation
+		);
+
+		await this.groupConversationRepository.findParticipantsAndUpdate(
 			createdConversation,
 			user as User
 		);
@@ -53,4 +56,4 @@ class CreateConversation {
 	}
 }
 
-export default CreateConversation;
+export default CreateGroupConversation;

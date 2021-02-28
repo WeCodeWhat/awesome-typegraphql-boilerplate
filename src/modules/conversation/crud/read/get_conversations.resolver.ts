@@ -1,7 +1,7 @@
 import { Resolver, Query } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { Conversation } from "../../../../entity/Conversation";
-import { ConversationRepository } from "../../../repos/conversation_repository";
+import { ConversationRepository } from "../../../repository/conversation/ConversationRepository";
 
 @Resolver((of) => Conversation)
 class ConversationCRUDResolver {
