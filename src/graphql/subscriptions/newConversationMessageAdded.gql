@@ -1,0 +1,42 @@
+subscription newConversationMessageAdded($data: NewConversationMessageInput!){
+    newConversationMessageAdded(data: $data){
+        message
+        sender{
+            id
+            email
+            password
+            firstName
+            lastName
+            status
+            name
+        }
+        conversation{
+            id
+            createdAt
+            participants{
+                id
+                email
+                password
+                firstName
+                lastName
+                status
+                name
+            }
+            messages{
+                id
+                sender{
+                    id
+                    email
+                    password
+                    firstName
+                    lastName
+                    status
+                    name
+                }
+                message
+                unread
+                createdAt
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+query getConversation($id: String!){
+    getConversation(id: $id){
+        id
+        createdAt
+        participants{
+            id
+            email
+            password
+            firstName
+            lastName
+            status
+            name
+        }
+        messages{
+            id
+            sender{
+                id
+                email
+                password
+                firstName
+                lastName
+                status
+                name
+            }
+            message
+            unread
+            createdAt
+        }
+    }
+}
