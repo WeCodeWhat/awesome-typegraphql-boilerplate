@@ -1,8 +1,9 @@
-import { GraphQLSchema } from "graphql";
+import { GraphQLSchema, printSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import { Container } from "typedi";
 import * as path from "path";
 import { redisPubSub } from "../helper/redis";
+import * as fs from "fs";
 
 const genSchema = async (): Promise<GraphQLSchema> => {
 	const modulePath = "../modules/**/*.resolver.ts";

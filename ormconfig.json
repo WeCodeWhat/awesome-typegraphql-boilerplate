@@ -1,10 +1,7 @@
 {
 	"type": "postgres",
-	"host": "localhost",
 	"port": 5432,
 	"name": "default",
-	"username": "postgres",
-	"password": "Cqt20011101",
 	"database": "gitgab-db",
 	"synchronize": true,
 	"logging": true,
@@ -15,6 +12,5 @@
 		"entitiesDir": "src/entity",
 		"migrationsDir": "src/migration",
 		"subscribersDir": "src/subscriber"
-	},
-	"dropSchema": true
+	}
 }

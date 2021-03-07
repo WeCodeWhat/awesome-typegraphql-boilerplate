@@ -8,7 +8,7 @@ import { isAuth } from "../../../middleware/isAuth";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
 import { UserRepository } from "../../../repository/user/UserRepository";
-import { CreateGroupConversationInput } from "./create_group_conversation.input";
+import { CreateGroupConversationInput } from "./create_group_conversation.dto";
 import { Error as ErrorSchema } from "../../../common/error.schema";
 
 @Resolver((of) => Conversation)
