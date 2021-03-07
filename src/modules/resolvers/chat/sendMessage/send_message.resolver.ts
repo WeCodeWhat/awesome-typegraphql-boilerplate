@@ -9,17 +9,17 @@ import {
 	Ctx,
 	Publisher,
 } from "type-graphql";
-import { ChatRepository } from "../../repository/chat/ChatRepository";
+import { ChatRepository } from "../../../repository/chat/ChatRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { SendMessageInput } from "./send_message.dto";
-import { ConversationRepository } from "../../repository/conversation/ConversationRepository";
-import { Error as ErrorSchema } from "../../common/error.schema";
-import { ErrorMessage } from "../../common/ErrorMessage";
+import { ConversationRepository } from "../../../repository/conversation/ConversationRepository";
+import { Error as ErrorSchema } from "../../../common/error.schema";
+import { ErrorMessage } from "../../../common/ErrorMessage";
 import { ChatPayload } from "./chatPayload.schema";
-import { Message } from "../../../entity/Message";
-import { isAuth } from "../../middleware/isAuth";
-import { GQLContext } from "../../../utils/graphql-utils";
-import { UserRepository } from "../../repository/user/UserRepository";
+import { Message } from "../../../../entity/Message";
+import { isAuth } from "../../../middleware/isAuth";
+import { GQLContext } from "../../../../utils/graphql-utils";
+import { UserRepository } from "../../../repository/user/UserRepository";
 import { NewConversationMessageInput } from "./new_conversation_message.dto";
 
 enum SubTopic {

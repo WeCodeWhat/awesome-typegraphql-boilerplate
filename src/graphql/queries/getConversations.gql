@@ -1,19 +1,9 @@
 query getConversations{
     getConversations{
-        id
-        createdAt
-        participants{
+        ... on GroupConversationSchema {
             id
-            email
-            password
-            firstName
-            lastName
-            status
-            name
-        }
-        messages{
-            id
-            sender{
+            createdAt
+            participants{
                 id
                 email
                 password
@@ -22,8 +12,26 @@ query getConversations{
                 status
                 name
             }
-            message
-            unread
+            messages{
+                id
+                sender{
+                    id
+                    email
+                    password
+                    firstName
+                    lastName
+                    status
+                    name
+                }
+                message
+                unread
+                createdAt
+            }
+            name
+            visibility
+        }
+        ... on ConversationSchema {
+            id
             createdAt
         }
     }

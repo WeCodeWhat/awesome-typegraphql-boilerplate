@@ -6,14 +6,14 @@ import {
 	Ctx,
 	UseMiddleware,
 } from "type-graphql";
-import { User } from "../../../entity/User";
-import { Error as ErrorSchema } from "../../common/error.schema";
+import { User } from "../../../../entity/User";
+import { Error as ErrorSchema } from "../../../common/error.schema";
 import { RegisterInput } from "./register.input";
-import { UserRepository } from "../../repository/user/UserRepository";
+import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { GQLContext } from "../../../utils/graphql-utils";
-import { yupValidateMiddleware } from "../../middleware/yupValidate";
-import { YUP_REGISTER } from "../../common/yupSchema";
+import { GQLContext } from "../../../../utils/graphql-utils";
+import { yupValidateMiddleware } from "../../../middleware/yupValidate";
+import { YUP_REGISTER } from "../../../common/yupSchema";
 
 @Resolver((of) => User)
 class RegisterResolver {

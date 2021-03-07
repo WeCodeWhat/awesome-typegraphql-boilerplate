@@ -1,11 +1,11 @@
 import { Resolver, Mutation, Ctx, UseMiddleware } from "type-graphql";
-import { User } from "../../../entity/User";
-import { GQLContext } from "../../../utils/graphql-utils";
-import { isAuth } from "../../middleware/isAuth";
+import { User } from "../../../../entity/User";
+import { GQLContext } from "../../../../utils/graphql-utils";
+import { isAuth } from "../../../middleware/isAuth";
 import {
 	REDIS_SESSION_PREFIX,
 	USER_SESSION_ID_PREFIX,
-} from "../../../constants/global-variables";
+} from "../../../../constants/global-variables";
 
 @Resolver((of) => User)
 class LogoutResolver {

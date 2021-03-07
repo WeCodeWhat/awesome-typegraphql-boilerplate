@@ -85,11 +85,13 @@ input RegisterInput {
 }
 
 type Query {
-  getConversation(id: String!): ConversationSchema
-  getConversations: [ConversationSchema!]!
+  getConversation(id: String!): ConversationUnion
+  getConversations: [ConversationUnion!]!
   me: UserSchema
   hello: String!
 }
+
+union ConversationUnion = GroupConversationSchema | ConversationSchema
 
 type Mutation {
   sendMessage(data: SendMessageInput!): Error

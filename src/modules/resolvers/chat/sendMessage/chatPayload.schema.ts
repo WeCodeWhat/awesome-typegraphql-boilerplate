@@ -1,6 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
-import { Conversation } from "../../../entity/Conversation";
-import { User } from "../../../entity/User";
+import { Conversation } from "../../../../entity/Conversation";
+import { User } from "../../../../entity/User";
 
 @ObjectType("ChatPayload")
 export class ChatPayload {
