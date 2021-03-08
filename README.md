@@ -16,6 +16,4 @@
 
 **Stages**
 
-- [ ] Development
-- [ ] Testing
-- [ ] Production
+- Development
