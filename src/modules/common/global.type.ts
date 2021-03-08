@@ -1,14 +1,14 @@
 import { createUnionType } from "type-graphql";
-import { Conversation } from "../../entity/Conversation";
+import { DirectConversation } from "../../entity/DirectConversation";
 import { GroupConversation } from "../../entity/GroupConversation";
 
 export const ConversationUnion = createUnionType({
 	name: "ConversationUnion",
-	types: () => [GroupConversation, Conversation] as const,
+	types: () => [GroupConversation, DirectConversation] as const,
 	resolveType: (value) => {
-		if ("owner" in value) {
+		if ("visibility" || "name" || "owner" in value) {
 			return GroupConversation;
 		}
-		return Conversation;
+		return DirectConversation;
 	},
 });

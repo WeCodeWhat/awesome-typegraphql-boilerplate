@@ -31,7 +31,7 @@ class SendMessageResolver {
 	@InjectRepository(ChatRepository)
 	private readonly chatRepository: ChatRepository;
 	@InjectRepository(ConversationRepository)
-	private readonly conversationRepository: ConversationRepository;
+	private readonly conversationRepository: ConversationRepository<any>;
 	@InjectRepository(UserRepository)
 	private readonly userRepository: UserRepository;
 
@@ -79,7 +79,7 @@ class SendMessageResolver {
 		const chatMessage = await this.chatRepository
 			.create({ message, sender: users[0], conversation })
 			.save();
-		await this.conversationRepository.findMessageAndUpdate(
+		await this.conversationRepository.findConversationAndUpdateMessage(
 			conversation,
 			chatMessage
 		);

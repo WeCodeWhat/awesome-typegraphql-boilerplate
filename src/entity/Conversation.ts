@@ -16,7 +16,7 @@ import { Message } from "./Message";
 @ObjectType("ConversationSchema")
 @Entity("Conversation")
 @TableInheritance({ column: { type: "varchar", name: "type" } })
-export class Conversation extends BaseEntity {
+export abstract class Conversation extends BaseEntity {
 	@Field(() => ID)
 	@PrimaryColumn("uuid")
 	id: string;

@@ -5,21 +5,35 @@ import { ConversationRepository } from "../../../repository/conversation/Convers
 import { YUP_UUID } from "../../../common/yupSchema";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { ConversationUnion } from "../../../common/global.type";
+import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
+import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
 
 @Resolver((of) => Conversation)
 class GetConversationResolver {
 	@InjectRepository(ConversationRepository)
-	private readonly conversationRepository: ConversationRepository;
+	private readonly directConversationRepository: DirectConversationRepository;
+
+	@InjectRepository(ConversationRepository)
+	private readonly groupConversationRepository: GroupConversationRepository;
 
 	@UseMiddleware(yupValidateMiddleware(YUP_UUID))
 	@Query(() => ConversationUnion, { nullable: true })
 	async getConversation(@Arg("id") id: String) {
-		return await this.conversationRepository.findOne({
+		const directConversation = await this.directConversationRepository.findOne({
 			relations: ["participants", "messages", "messages.sender"],
 			where: {
 				id,
 			},
 		});
+
+		const groupConversation = await this.groupConversationRepository.findOne({
+			relations: ["participants", "messages", "messages.sender"],
+			where: {
+				id,
+			},
+		});
+
+		return directConversation || groupConversation;
 	}
 }
 

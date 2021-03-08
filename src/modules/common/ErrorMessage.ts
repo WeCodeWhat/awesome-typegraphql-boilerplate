@@ -4,4 +4,6 @@ export enum ErrorMessage {
 	inValidEmailAddress = "Invalid email address",
 	emailIsRegister = "Email is already registered",
 	conversationIdIsNotValid = "Conversation ID is not valid",
+	conversationHasBeenCreated = "Conversation has been created",
+	userIsNotFound = "User Is Not Found",
 }

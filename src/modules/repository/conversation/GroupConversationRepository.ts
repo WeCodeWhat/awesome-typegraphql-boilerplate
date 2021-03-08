@@ -1,9 +1,9 @@
 import { EntityRepository } from "typeorm";
 import { GroupConversation } from "../../../entity/GroupConversation";
-import { IConversationRepository } from "./IConversationRepository";
+import { ConversationRepository } from "./ConversationRepository";
 
 @EntityRepository(GroupConversation)
-export class GroupConversationRepository extends IConversationRepository<GroupConversation> {
+export class GroupConversationRepository extends ConversationRepository<GroupConversation> {
 	constructor() {
 		super();
 	}

@@ -32,15 +32,19 @@ export class UserRepository extends Repository<User> {
 
 		return null;
 	}
-	async findConversationAndUpdate(user: User, conversation: Conversation) {
-		console.log(conversation);
-		if (user?.conversations) {
-			user?.conversations.push(conversation);
-		} else {
-			const conversations: Conversation[] = [];
-			conversations.push(conversation);
-			user.conversations = conversations;
-		}
-		return user.save();
+
+	async findUsersAndUpdateConversation(
+		users: User[],
+		conversation: Conversation
+	) {
+		users.forEach((user) => {
+			if (user?.conversations) {
+				user?.conversations.push(conversation);
+			} else {
+				const conversations: Conversation[] = [];
+				conversations.push(conversation);
+				user.conversations = conversations;
+			}
+		});
 	}
 }

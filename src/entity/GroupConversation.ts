@@ -17,6 +17,7 @@ export class GroupConversation extends Conversation {
 	@Column("text")
 	name: string;
 
+	@Field(() => User!)
 	@ManyToOne(() => User, (user) => user.id)
 	@JoinColumn()
 	owner: User;

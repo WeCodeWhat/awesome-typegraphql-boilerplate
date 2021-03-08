@@ -32,12 +32,20 @@ type ConversationSchema {
   messages: [MessageSchema!]!
 }
 
+type DirectConversationSchema {
+  id: ID!
+  createdAt: String!
+  participants: [UserSchema!]!
+  messages: [MessageSchema!]!
+}
+
 type GroupConversationSchema {
   id: ID!
   createdAt: String!
   participants: [UserSchema!]!
   messages: [MessageSchema!]!
   name: String!
+  owner: UserSchema!
   visibility: GroupConversationVisibility!
 }
 
@@ -67,6 +75,10 @@ input NewConversationMessageInput {
   conversationId: String!
 }
 
+input CreateDirectConversationInput {
+  toId: String!
+}
+
 input CreateGroupConversationInput {
   name: String!
   visibility: GroupConversationVisibility!
@@ -91,7 +103,7 @@ type Query {
   hello: String!
 }
 
-union ConversationUnion = GroupConversationSchema | ConversationSchema
+union ConversationUnion = GroupConversationSchema | DirectConversationSchema
 
 type Mutation {
   sendMessage(data: SendMessageInput!): Error

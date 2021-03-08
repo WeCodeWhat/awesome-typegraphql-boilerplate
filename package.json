@@ -49,8 +49,8 @@
 	},
 	"scripts": {
 		"start": "SET NODE_ENV=development& ts-node-dev --respawn src/index.ts",
-		"start:dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" ",
-		"start:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \"",
+		"start:dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
+		"start:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
 		"prod": "SET NODE_ENV=production  & ts-node src/index.ts",
 		"gen-gql": "gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/graphql --depthLimit 5",
 		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e ."
