@@ -1,4 +1,4 @@
-# A backend boilerplate for GraphQL Server using
+# A backend boilerplate for GraphQL Server using TypeGraphQL
 
 **Technologies:**
 
