@@ -1,7 +1,21 @@
-# Awesome Project Build with TypeORM
+# A backend boilerplate for GraphQL Server using
 
-Steps to run this project:
+**Technologies:**
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+- TypeGraphQL: https://github.com/MichalLytek/type-graphql
+- GraphQL Yoga: https://github.com/prisma-labs/graphql-yoga
+- GQL Generators: https://github.com/prisma-labs/graphql-yoga
+- TypeORM: https://github.com/typeorm/typeorm
+- Class Validators: https://github.com/typestack/class-validator
+- Yup: https://github.com/jquense/yup
+
+**Microservice:**
+
+- Redis: https://github.com/luin/ioredis
+- More...
+
+**Stages**
+
+- [ ] Development
+- [ ] Testing
+- [ ] Production
