@@ -1,6 +1,0 @@
-mutation sendMessage($data: SendMessageInput!){
-    sendMessage(data: $data){
-        path
-        message
-    }
-}

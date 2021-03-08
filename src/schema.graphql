@@ -4,72 +4,12 @@ type UserSchema {
   password: String!
   firstName: String!
   lastName: String!
-  status: UserStatus!
   name: String!
-}
-
-"""The activity status of user"""
-enum UserStatus {
-  online
-  offline
-  busy
-  none
-  silence
-}
-
-type MessageSchema {
-  id: ID!
-  sender: UserSchema
-  message: String!
-  unread: Boolean!
-  createdAt: String!
-}
-
-type ConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-}
-
-type GroupConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-  name: String!
-  visibility: GroupConversationVisibility!
-}
-
-"""The visibility mode of the group conversation"""
-enum GroupConversationVisibility {
-  public
-  private
 }
 
 type Error {
   path: String!
   message: String!
-}
-
-type ChatPayload {
-  message: String!
-  sender: UserSchema!
-  conversation: ConversationSchema!
-}
-
-input SendMessageInput {
-  conversationId: String!
-  message: String!
-}
-
-input NewConversationMessageInput {
-  conversationId: String!
-}
-
-input CreateGroupConversationInput {
-  name: String!
-  visibility: GroupConversationVisibility!
 }
 
 input LoginInput {
@@ -85,22 +25,12 @@ input RegisterInput {
 }
 
 type Query {
-  getConversation(id: String!): ConversationUnion
-  getConversations: [ConversationUnion!]!
   me: UserSchema
   hello: String!
 }
 
-union ConversationUnion = GroupConversationSchema | ConversationSchema
-
 type Mutation {
-  sendMessage(data: SendMessageInput!): Error
-  createGroupConversation(data: CreateGroupConversationInput!): Error
   login(data: LoginInput!): Error
   logout: Boolean
   register(data: RegisterInput!): Error
-}
-
-type Subscription {
-  newConversationMessageAdded(data: NewConversationMessageInput!): ChatPayload
 }
