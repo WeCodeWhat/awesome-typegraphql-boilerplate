@@ -5,7 +5,6 @@ query me{
         password
         firstName
         lastName
-        status
         name
     }
 }

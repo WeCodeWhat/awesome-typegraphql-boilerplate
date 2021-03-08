@@ -9,8 +9,6 @@ import {
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
-import { Conversation } from "./Conversation";
-import { UserStatus } from "../shared/UserStatus";
 
 @ObjectType("UserSchema")
 @Entity("Users")
@@ -34,13 +32,6 @@ export class User extends BaseEntity {
 	@Field(() => String!)
 	@Column({ nullable: true })
 	lastName: string;
-
-	@ManyToMany(() => Conversation, (conversation) => conversation.participants)
-	conversations: Conversation[];
-
-	@Field(() => UserStatus!)
-	@Column("text", { nullable: true, default: UserStatus.none })
-	status: UserStatus;
 
 	// External
 	@Field(() => String!)

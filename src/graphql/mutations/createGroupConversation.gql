@@ -1,6 +1,0 @@
-mutation createGroupConversation($data: CreateGroupConversationInput!){
-    createGroupConversation(data: $data){
-        path
-        message
-    }
-}

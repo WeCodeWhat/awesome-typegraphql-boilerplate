@@ -1,5 +1,4 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Conversation } from "../../../entity/Conversation";
 import { User } from "../../../entity/User";
 import { ErrorMessage } from "../../common/ErrorMessage";
 
@@ -31,16 +30,5 @@ export class UserRepository extends Repository<User> {
 			.then((err) => console.log(err));
 
 		return null;
-	}
-	async findConversationAndUpdate(user: User, conversation: Conversation) {
-		console.log(conversation);
-		if (user?.conversations) {
-			user?.conversations.push(conversation);
-		} else {
-			const conversations: Conversation[] = [];
-			conversations.push(conversation);
-			user.conversations = conversations;
-		}
-		return user.save();
 	}
 }
