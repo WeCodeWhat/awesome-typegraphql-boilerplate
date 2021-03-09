@@ -1,7 +1,7 @@
 import { Arg, Resolver, Mutation, Ctx, UseMiddleware } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../shared/ErrorMessage.type";
-import { LoginInput } from "./login.input";
+import { LoginInput } from "./login.dto";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import * as bcrypt from "bcrypt";

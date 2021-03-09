@@ -8,7 +8,7 @@ import {
 } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../shared/ErrorMessage.type";
-import { RegisterInput } from "./register.input";
+import { RegisterInput } from "./register.dto";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { GQLContext } from "../../../../utils/graphql-utils";
