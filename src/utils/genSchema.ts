@@ -4,7 +4,7 @@ import { Container } from "typedi";
 import * as path from "path";
 import { redisPubSub } from "../helper/redis";
 import { customAuthChecker } from "./authChecker";
-import { ResolveTime, LogAccess } from "../modules/middleware";
+import { ResolveTime } from "../modules/middleware";
 
 const genSchema = async (): Promise<GraphQLSchema> => {
 	const modulePath = "../modules/**/*.resolver.ts";
@@ -13,7 +13,7 @@ const genSchema = async (): Promise<GraphQLSchema> => {
 		container: Container,
 		pubSub: redisPubSub,
 		authChecker: customAuthChecker,
-		globalMiddlewares: [ResolveTime, LogAccess],
+		globalMiddlewares: [ResolveTime],
 	});
 
 	return schema;

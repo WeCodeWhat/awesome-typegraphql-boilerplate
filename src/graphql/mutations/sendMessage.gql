@@ -1,4 +1,4 @@
-mutation sendMessage($data: SendMessageInput!){
+mutation sendMessage($data: SendMessageDto!){
     sendMessage(data: $data){
         path
         message

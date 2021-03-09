@@ -3,8 +3,6 @@ import {
 	Resolver,
 	Mutation,
 	PubSub,
-	Subscription,
-	Root,
 	UseMiddleware,
 	Ctx,
 	Publisher,
@@ -19,12 +17,8 @@ import { Message } from "../../../../entity/Message";
 import { isAuth } from "../../../middleware/isAuth";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { UserRepository } from "../../../repository/user/UserRepository";
-import { NewConversationMessageDto } from "./new_conversation_message.dto";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
-
-enum SubTopic {
-	NEW_CONVERSATION_MESSAGE_ADDED = "NEW_CONVERSATION_MESSAGE_ADDED",
-}
+import { SubTopic } from "../../../../shared/SubTopic.enum";
 
 @Resolver((of) => Message)
 class SendMessageResolver {
@@ -34,27 +28,6 @@ class SendMessageResolver {
 	private readonly conversationRepository: ConversationRepository<any>;
 	@InjectRepository(UserRepository)
 	private readonly userRepository: UserRepository;
-
-	@Subscription({
-		topics: SubTopic.NEW_CONVERSATION_MESSAGE_ADDED,
-		filter: ({
-			payload,
-			args,
-		}: {
-			payload: MessagePayload;
-			args: { data: NewConversationMessageDto };
-		}) => args.data.conversationId === payload.conversation.id,
-		nullable: true,
-	})
-	newConversationMessageAdded(
-		@Root() messagePayload: MessagePayload,
-		@Arg("data") args: NewConversationMessageDto
-	): MessagePayload {
-		console.log(args, messagePayload);
-		return {
-			...messagePayload,
-		};
-	}
 
 	@UseMiddleware(isAuth)
 	@Mutation(() => ErrorMessage!, { nullable: true })
@@ -85,7 +58,12 @@ class SendMessageResolver {
 			conversation,
 			chatMessage
 		);
-		await publish(chatMessage).catch((err) => console.log(err));
+		await publish({
+			conversationId: chatMessage.conversation.id,
+			messageId: chatMessage.id,
+		}).catch((err) => {
+			throw new Error(err);
+		});
 		return null;
 	}
 }

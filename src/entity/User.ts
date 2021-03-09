@@ -24,7 +24,7 @@ export class User extends BaseEntity {
 	@Column("text", { unique: true })
 	email: string;
 
-	@Authorized(UserRole.super_admin)
+	// @Authorized(UserRole.super_admin)
 	@Field(() => String!)
 	@Column()
 	password: string;
@@ -37,7 +37,7 @@ export class User extends BaseEntity {
 	@Column({ nullable: true })
 	lastName: string;
 
-	@Authorized(UserRole.super_admin)
+	// @Authorized(UserRole.super_admin)
 	@ManyToMany(() => Conversation, (conversation) => conversation.participants)
 	conversations: Conversation[];
 

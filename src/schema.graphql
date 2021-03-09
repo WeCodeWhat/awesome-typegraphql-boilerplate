@@ -56,9 +56,8 @@ enum GroupConversationVisibility {
 }
 
 type MessagePayloadSchema {
-  message: String!
-  sender: UserSchema!
-  conversation: ConversationSchema!
+  messageId: String!
+  conversationId: String!
 }
 
 type ErrorMessage {
@@ -66,13 +65,13 @@ type ErrorMessage {
   message: String!
 }
 
+input NewMessageSendedDto {
+  conversationId: String!
+}
+
 input SendMessageDto {
   conversationId: String!
   message: String!
-}
-
-input NewConversationMessageDto {
-  conversationId: String!
 }
 
 input CreateDirectConversationDto {
@@ -115,5 +114,5 @@ type Mutation {
 }
 
 type Subscription {
-  newConversationMessageAdded(data: NewConversationMessageDto!): MessagePayloadSchema
+  newMessageSended(data: NewMessageSendedDto!): MessageSchema
 }
