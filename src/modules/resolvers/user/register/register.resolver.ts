@@ -7,13 +7,13 @@ import {
 	UseMiddleware,
 } from "type-graphql";
 import { User } from "../../../../entity/User";
-import { Error as ErrorSchema } from "../../../common/error.schema";
+import { ErrorMessage } from "../../../shared/ErrorMessage.type";
 import { RegisterInput } from "./register.input";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
-import { YUP_REGISTER } from "../../../common/yupSchema";
+import { YUP_REGISTER } from "../../../shared/yupSchema";
 
 @Resolver((of) => User)
 class RegisterResolver {
@@ -27,7 +27,7 @@ class RegisterResolver {
 	}
 
 	@UseMiddleware(yupValidateMiddleware(YUP_REGISTER))
-	@Mutation(() => ErrorSchema!, { nullable: true })
+	@Mutation(() => ErrorMessage!, { nullable: true })
 	async register(
 		@Arg("data") { email, firstName, lastName, password }: RegisterInput
 	) {

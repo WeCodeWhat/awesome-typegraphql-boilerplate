@@ -28,9 +28,18 @@ query getConversation($id: String!){
                 createdAt
             }
             name
+            owner{
+                id
+                email
+                password
+                firstName
+                lastName
+                status
+                name
+            }
             visibility
         }
-        ... on ConversationSchema {
+        ... on DirectConversationSchema {
             id
             createdAt
         }

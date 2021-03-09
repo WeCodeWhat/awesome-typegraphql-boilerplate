@@ -10,7 +10,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { Conversation } from "./Conversation";
-import { UserStatus } from "../shared/UserStatus";
+import { UserStatus } from "../modules/shared/UserStatus.enum";
 
 @ObjectType("UserSchema")
 @Entity("Users")

@@ -1,18 +1,18 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { Conversation } from "../../../../entity/Conversation";
 import { GQLContext } from "../../../../utils/graphql-utils";
-import { YUP_CONVERSATION_CRUD } from "../../../common/yupSchema";
+import { YUP_CONVERSATION_CRUD } from "../../../shared/yupSchema";
 import { isAuth } from "../../../middleware/isAuth";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { UserRepository } from "../../../repository/user/UserRepository";
-import { Error as ErrorSchema } from "../../../common/error.schema";
+import { ErrorMessage } from "../../../shared/ErrorMessage.type";
 import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
 import { CreateDirectConversationInput } from "./create_direct_conversation.dto";
-import { ErrorMessage } from "../../../common/ErrorMessage";
 import { User } from "../../../../entity/User";
+import { DirectConversation } from "../../../../entity/DirectConversation";
+import { CustomMessage } from "../../../shared/CustomMessage.enum";
 
-@Resolver((of) => Conversation)
+@Resolver((of) => DirectConversation)
 class CreateDirectConversation {
 	@InjectRepository(DirectConversationRepository)
 	private readonly directConversationRepository: DirectConversationRepository;
@@ -20,8 +20,8 @@ class CreateDirectConversation {
 	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_CRUD))
-	@Mutation(() => ErrorSchema!, { nullable: true })
-	async createGroupConversation(
+	@Mutation(() => ErrorMessage!, { nullable: true })
+	async createDirectConversation(
 		@Arg("data") { toId }: CreateDirectConversationInput,
 		@Ctx() { session }: GQLContext
 	) {
@@ -32,7 +32,7 @@ class CreateDirectConversation {
 		if (!to) {
 			return {
 				path: "toId",
-				message: ErrorMessage.userIsNotFound,
+				message: ErrorMessage,
 			};
 		}
 
@@ -44,7 +44,7 @@ class CreateDirectConversation {
 		if (conversation.length > 0) {
 			return {
 				path: "name",
-				message: ErrorMessage.conversationHasBeenCreated,
+				message: CustomMessage.conversationHasBeenCreated,
 			};
 		}
 		const user = await this.userRepository.findOne({
@@ -53,15 +53,18 @@ class CreateDirectConversation {
 
 		const createdConversation = await this.directConversationRepository.create();
 
-		await this.userRepository.findUsersAndUpdateConversation(
-			[user as User, to],
-			createdConversation
-		);
+		[user as User, to].forEach(async (u) => {
+			await this.userRepository.findUserAndUpdateConversation(
+				u,
+				createdConversation
+			);
+			await this.directConversationRepository.findConversationAndUpdateParticipant(
+				createdConversation,
+				u
+			);
+		});
 
-		await this.directConversationRepository.findConversationAndUpdateParticipants(
-			createdConversation,
-			[user as User, to]
-		);
+		await createdConversation.save();
 
 		return null;
 	}

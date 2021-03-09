@@ -1,17 +1,17 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { Conversation } from "../../../../entity/Conversation";
 import { User } from "../../../../entity/User";
 import { GQLContext } from "../../../../utils/graphql-utils";
-import { YUP_CONVERSATION_CRUD } from "../../../common/yupSchema";
+import { YUP_CONVERSATION_CRUD } from "../../../shared/yupSchema";
 import { isAuth } from "../../../middleware/isAuth";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { CreateGroupConversationInput } from "./create_group_conversation.dto";
-import { Error as ErrorSchema } from "../../../common/error.schema";
+import { ErrorMessage } from "../../../shared/ErrorMessage.type";
+import { GroupConversation } from "../../../../entity/GroupConversation";
 
-@Resolver((of) => Conversation)
+@Resolver((of) => GroupConversation)
 class CreateGroupConversation {
 	@InjectRepository(GroupConversationRepository)
 	private readonly groupConversationRepository: GroupConversationRepository;
@@ -19,7 +19,7 @@ class CreateGroupConversation {
 	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_CRUD))
-	@Mutation(() => ErrorSchema!, { nullable: true })
+	@Mutation(() => ErrorMessage!, { nullable: true })
 	async createGroupConversation(
 		@Arg("data") { name, visibility }: CreateGroupConversationInput,
 		@Ctx() { session }: GQLContext
@@ -42,15 +42,19 @@ class CreateGroupConversation {
 			owner: user,
 		});
 
-		await this.userRepository.findUsersAndUpdateConversation(
-			[user as User],
+		console.log(createdConversation);
+
+		await this.userRepository.findUserAndUpdateConversation(
+			user as User,
 			createdConversation
 		);
 
-		await this.groupConversationRepository.findConversationAndUpdateParticipants(
+		await this.groupConversationRepository.findConversationAndUpdateParticipant(
 			createdConversation,
-			[user as User]
+			user as User
 		);
+
+		await createdConversation.save();
 
 		return null;
 	}

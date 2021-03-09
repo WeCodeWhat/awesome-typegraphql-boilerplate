@@ -13,14 +13,14 @@ import { ChatRepository } from "../../../repository/chat/ChatRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { SendMessageInput } from "./send_message.dto";
 import { ConversationRepository } from "../../../repository/conversation/ConversationRepository";
-import { Error as ErrorSchema } from "../../../common/error.schema";
-import { ErrorMessage } from "../../../common/ErrorMessage";
+import { ErrorMessage } from "../../../shared/ErrorMessage.type";
 import { ChatPayload } from "./chatPayload.schema";
 import { Message } from "../../../../entity/Message";
 import { isAuth } from "../../../middleware/isAuth";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { NewConversationMessageInput } from "./new_conversation_message.dto";
+import { CustomMessage } from "../../../shared/CustomMessage.enum";
 
 enum SubTopic {
 	NEW_CONVERSATION_MESSAGE_ADDED = "NEW_CONVERSATION_MESSAGE_ADDED",
@@ -56,7 +56,7 @@ class SendMessageResolver {
 	}
 
 	@UseMiddleware(isAuth)
-	@Mutation(() => ErrorSchema!, { nullable: true })
+	@Mutation(() => ErrorMessage!, { nullable: true })
 	async sendMessage(
 		@Arg("data") { message, conversationId }: SendMessageInput,
 		@PubSub(SubTopic.NEW_CONVERSATION_MESSAGE_ADDED)
@@ -70,7 +70,7 @@ class SendMessageResolver {
 		if (!conversation) {
 			return {
 				path: "conversationId",
-				message: ErrorMessage.conversationIdIsNotValid,
+				message: CustomMessage.conversationIdIsNotValid,
 			};
 		}
 		const users = await this.userRepository.find({

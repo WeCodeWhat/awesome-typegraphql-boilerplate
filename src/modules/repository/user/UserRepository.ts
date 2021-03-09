@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Conversation } from "../../../entity/Conversation";
 import { User } from "../../../entity/User";
-import { ErrorMessage } from "../../common/ErrorMessage";
+import { CustomMessage } from "../../shared/CustomMessage.enum";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -18,7 +18,7 @@ export class UserRepository extends Repository<User> {
 		if (!!user) {
 			return {
 				path: "email",
-				message: ErrorMessage.emailIsRegister,
+				message: CustomMessage.emailIsRegister,
 			};
 		}
 		await this.create({
@@ -33,18 +33,13 @@ export class UserRepository extends Repository<User> {
 		return null;
 	}
 
-	async findUsersAndUpdateConversation(
-		users: User[],
-		conversation: Conversation
-	) {
-		users.forEach((user) => {
-			if (user?.conversations) {
-				user?.conversations.push(conversation);
-			} else {
-				const conversations: Conversation[] = [];
-				conversations.push(conversation);
-				user.conversations = conversations;
-			}
-		});
+	async findUserAndUpdateConversation(user: User, conversation: Conversation) {
+		if (user?.conversations) {
+			user?.conversations.push(conversation);
+		} else {
+			const conversations: Conversation[] = [];
+			conversations.push(conversation);
+			user.conversations = conversations;
+		}
 	}
 }

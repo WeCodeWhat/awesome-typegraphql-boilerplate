@@ -1,10 +1,10 @@
-import { Error } from "../modules/common/error.schema";
+import { ErrorMessage } from "../modules/shared/ErrorMessage.type";
 import { formatYupErrors } from "./formatYupErrors";
 
 export const formatValidationError = (err: any): any[] => {
 	const validationErrors: any[] = err.extensions?.exception?.validationErrors;
 	console.log(JSON.stringify(err, null, 2));
-	const errors: Error[] = [];
+	const errors: ErrorMessage[] = [];
 	if (err.message?.name == "ValidationError") {
 		return formatYupErrors(err.message);
 	} else {

@@ -1,8 +1,7 @@
 import { Resolver, Query } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { Conversation } from "../../../../entity/Conversation";
-import { GroupConversation } from "../../../../entity/GroupConversation";
-import { ConversationUnion } from "../../../common/global.type";
+import { ConversationUnion } from "../../../shared/ConversationUnion.type";
 import { ConversationRepository } from "../../../repository/conversation/ConversationRepository";
 import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
 import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
@@ -17,14 +16,18 @@ class GetConversationsResolvers {
 	@Query(() => [ConversationUnion]!)
 	async getConversations() {
 		const groupConversations = await this.groupConversationRepository.find({
-			relations: ["participants", "messages", "messages.sender"],
+			relations: ["participants", "messages", "messages.sender", "owner"],
 		});
 
 		const directConversations = await this.directConversationRepository.find({
 			relations: ["participants", "messages", "messages.sender"],
 		});
 
-		return [...groupConversations, ...directConversations];
+		console.log(groupConversations);
+
+		console.log(directConversations);
+
+		return [...directConversations, ...groupConversations];
 	}
 }
 

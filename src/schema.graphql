@@ -55,7 +55,7 @@ enum GroupConversationVisibility {
   private
 }
 
-type Error {
+type ErrorMessage {
   path: String!
   message: String!
 }
@@ -106,11 +106,12 @@ type Query {
 union ConversationUnion = GroupConversationSchema | DirectConversationSchema
 
 type Mutation {
-  sendMessage(data: SendMessageInput!): Error
-  createGroupConversation(data: CreateGroupConversationInput!): Error
-  login(data: LoginInput!): Error
+  sendMessage(data: SendMessageInput!): ErrorMessage
+  createDirectConversation(data: CreateDirectConversationInput!): ErrorMessage
+  createGroupConversation(data: CreateGroupConversationInput!): ErrorMessage
+  login(data: LoginInput!): ErrorMessage
   logout: Boolean
-  register(data: RegisterInput!): Error
+  register(data: RegisterInput!): ErrorMessage
 }
 
 type Subscription {
