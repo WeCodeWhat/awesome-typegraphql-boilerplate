@@ -19,7 +19,7 @@ import { Message } from "../../../../entity/Message";
 import { isAuth } from "../../../middleware/isAuth";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { UserRepository } from "../../../repository/user/UserRepository";
-import { NewConversationMessageInput } from "./new_conversation_message.dto";
+import { NewConversationMessageDto } from "./new_conversation_message.dto";
 import { CustomMessage } from "../../../shared/CustomMessage.enum";
 
 enum SubTopic {
@@ -42,13 +42,13 @@ class SendMessageResolver {
 			args,
 		}: {
 			payload: ChatPayload;
-			args: { data: NewConversationMessageInput };
+			args: { data: NewConversationMessageDto };
 		}) => args.data.conversationId === payload.conversation.id,
 		nullable: true,
 	})
 	newConversationMessageAdded(
 		@Root() chatPayload: ChatPayload,
-		@Arg("data") args: NewConversationMessageInput
+		@Arg("data") args: NewConversationMessageDto
 	): ChatPayload {
 		return {
 			...chatPayload,

@@ -1,7 +1,7 @@
 import { Arg, Resolver, Mutation, Ctx, UseMiddleware } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../shared/ErrorMessage.type";
-import { LoginInput } from "./login.dto";
+import { LoginDto } from "./login.dto";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import * as bcrypt from "bcrypt";
@@ -19,7 +19,7 @@ class LoginResolver {
 	@UseMiddleware(yupValidateMiddleware(YUP_LOGIN))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async login(
-		@Arg("data") { email, password }: LoginInput,
+		@Arg("data") { email, password }: LoginDto,
 		@Ctx() { request, session, redis }: GQLContext
 	) {
 		const user = await this.userRepository.findByEmail(email);

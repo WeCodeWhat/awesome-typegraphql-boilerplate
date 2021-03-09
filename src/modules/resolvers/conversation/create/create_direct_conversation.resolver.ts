@@ -7,7 +7,7 @@ import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { ErrorMessage } from "../../../shared/ErrorMessage.type";
 import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
-import { CreateDirectConversationInput } from "./create_direct_conversation.dto";
+import { CreateDirectConversationDto } from "./create_direct_conversation.dto";
 import { User } from "../../../../entity/User";
 import { DirectConversation } from "../../../../entity/DirectConversation";
 import { CustomMessage } from "../../../shared/CustomMessage.enum";
@@ -22,7 +22,7 @@ class CreateDirectConversation {
 	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_CRUD))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async createDirectConversation(
-		@Arg("data") { toId }: CreateDirectConversationInput,
+		@Arg("data") { toId }: CreateDirectConversationDto,
 		@Ctx() { session }: GQLContext
 	) {
 		const to = await this.userRepository.findOne({

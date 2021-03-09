@@ -8,7 +8,7 @@ import {
 } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../shared/ErrorMessage.type";
-import { RegisterInput } from "./register.dto";
+import { RegisterDto } from "./register.dto";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { GQLContext } from "../../../../utils/graphql-utils";
@@ -29,7 +29,7 @@ class RegisterResolver {
 	@UseMiddleware(yupValidateMiddleware(YUP_REGISTER))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async register(
-		@Arg("data") { email, firstName, lastName, password }: RegisterInput
+		@Arg("data") { email, firstName, lastName, password }: RegisterDto
 	) {
 		const res = await this.userRepository.findByEmailOrCreate({
 			email,

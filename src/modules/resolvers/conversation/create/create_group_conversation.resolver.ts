@@ -7,7 +7,7 @@ import { isAuth } from "../../../middleware/isAuth";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
 import { UserRepository } from "../../../repository/user/UserRepository";
-import { CreateGroupConversationInput } from "./create_group_conversation.dto";
+import { CreateGroupConversationDto } from "./create_group_conversation.dto";
 import { ErrorMessage } from "../../../shared/ErrorMessage.type";
 import { GroupConversation } from "../../../../entity/GroupConversation";
 
@@ -21,7 +21,7 @@ class CreateGroupConversation {
 	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_CRUD))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async createGroupConversation(
-		@Arg("data") { name, visibility }: CreateGroupConversationInput,
+		@Arg("data") { name, visibility }: CreateGroupConversationDto,
 		@Ctx() { session }: GQLContext
 	) {
 		const conversation = await this.groupConversationRepository.find({
