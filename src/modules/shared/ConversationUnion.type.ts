@@ -6,7 +6,7 @@ export const ConversationUnion = createUnionType({
 	name: "ConversationUnion",
 	types: () => [GroupConversation, DirectConversation] as const,
 	resolveType: (value) => {
-		if ("visibility" || "name" || "owner" in value) {
+		if ("visibility" in value || "owner" in value || "name" in value) {
 			return GroupConversation;
 		}
 		return DirectConversation;
