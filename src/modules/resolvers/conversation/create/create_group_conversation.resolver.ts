@@ -2,14 +2,14 @@ import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { User } from "../../../../entity/User";
 import { GQLContext } from "../../../../utils/graphql-utils";
-import { YUP_CONVERSATION_CRUD } from "../../../shared/yupSchema";
 import { isAuth } from "../../../middleware/isAuth";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { CreateGroupConversationDto } from "./create_group_conversation.dto";
-import { ErrorMessage } from "../../../shared/ErrorMessage.type";
+import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { GroupConversation } from "../../../../entity/GroupConversation";
+import { YUP_GROUP_CONVERSATION_CREATE } from "./create_group_conversation.dto";
 
 @Resolver((of) => GroupConversation)
 class CreateGroupConversation {
@@ -18,7 +18,7 @@ class CreateGroupConversation {
 	@InjectRepository(UserRepository)
 	private readonly userRepository: UserRepository;
 
-	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_CRUD))
+	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_GROUP_CONVERSATION_CREATE))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async createGroupConversation(
 		@Arg("data") { name, visibility }: CreateGroupConversationDto,
@@ -41,8 +41,6 @@ class CreateGroupConversation {
 			visibility,
 			owner: user,
 		});
-
-		console.log(createdConversation);
 
 		await this.userRepository.findUserAndUpdateConversation(
 			user as User,

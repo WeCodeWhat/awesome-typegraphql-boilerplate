@@ -2,9 +2,9 @@ import { Arg, Resolver, Query, UseMiddleware } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { Conversation } from "../../../../entity/Conversation";
 import { ConversationRepository } from "../../../repository/conversation/ConversationRepository";
-import { YUP_UUID } from "../../../shared/yupSchema";
+import { YUP_UUID } from "../../../../shared/yupSchema";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
-import { ConversationUnion } from "../../../shared/ConversationUnion.type";
+import { ConversationUnion } from "../../../../shared/ConversationUnion.type";
 import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
 import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";
 

@@ -1,6 +1,6 @@
 import { createUnionType } from "type-graphql";
-import { DirectConversation } from "../../entity/DirectConversation";
-import { GroupConversation } from "../../entity/GroupConversation";
+import { DirectConversation } from "../entity/DirectConversation";
+import { GroupConversation } from "../entity/GroupConversation";
 
 export const ConversationUnion = createUnionType({
 	name: "ConversationUnion",

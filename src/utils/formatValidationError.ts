@@ -1,4 +1,4 @@
-import { ErrorMessage } from "../modules/shared/ErrorMessage.type";
+import { ErrorMessage } from "../shared/ErrorMessage.type";
 import { formatYupErrors } from "./formatYupErrors";
 
 export const formatValidationError = (err: any): any[] => {

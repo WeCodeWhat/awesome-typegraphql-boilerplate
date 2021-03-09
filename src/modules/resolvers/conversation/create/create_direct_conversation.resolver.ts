@@ -1,16 +1,17 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { GQLContext } from "../../../../utils/graphql-utils";
-import { YUP_CONVERSATION_CRUD } from "../../../shared/yupSchema";
-import { isAuth } from "../../../middleware/isAuth";
-import { yupValidateMiddleware } from "../../../middleware/yupValidate";
+import { isAuth, yupValidateMiddleware } from "../../../middleware";
 import { UserRepository } from "../../../repository/user/UserRepository";
-import { ErrorMessage } from "../../../shared/ErrorMessage.type";
+import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
-import { CreateDirectConversationDto } from "./create_direct_conversation.dto";
+import {
+	CreateDirectConversationDto,
+	YUP_DIRECT_CONVERSATION_CREATE,
+} from "./create_direct_conversation.dto";
 import { User } from "../../../../entity/User";
 import { DirectConversation } from "../../../../entity/DirectConversation";
-import { CustomMessage } from "../../../shared/CustomMessage.enum";
+import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 
 @Resolver((of) => DirectConversation)
 class CreateDirectConversation {
@@ -19,7 +20,7 @@ class CreateDirectConversation {
 	@InjectRepository(UserRepository)
 	private readonly userRepository: UserRepository;
 
-	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_CRUD))
+	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_DIRECT_CONVERSATION_CREATE))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async createDirectConversation(
 		@Arg("data") { toId }: CreateDirectConversationDto,

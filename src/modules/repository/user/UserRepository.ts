@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Conversation } from "../../../entity/Conversation";
 import { User } from "../../../entity/User";
-import { CustomMessage } from "../../shared/CustomMessage.enum";
+import { CustomMessage } from "../../../shared/CustomMessage.enum";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {

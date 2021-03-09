@@ -1,4 +1,4 @@
-subscription newConversationMessageAdded($data: NewConversationMessageInput!){
+subscription newConversationMessageAdded($data: NewConversationMessageDto!){
     newConversationMessageAdded(data: $data){
         message
         sender{

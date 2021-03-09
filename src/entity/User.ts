@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Root } from "type-graphql";
+import { Authorized, Field, ID, ObjectType, Root } from "type-graphql";
 import {
 	Entity,
 	Column,
@@ -10,7 +10,8 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { Conversation } from "./Conversation";
-import { UserStatus } from "../modules/shared/UserStatus.enum";
+import { UserStatus } from "../shared/UserStatus.enum";
+import { UserRole } from "../shared/UserRole.enum";
 
 @ObjectType("UserSchema")
 @Entity("Users")
@@ -23,6 +24,7 @@ export class User extends BaseEntity {
 	@Column("text", { unique: true })
 	email: string;
 
+	@Authorized(UserRole.super_admin)
 	@Field(() => String!)
 	@Column()
 	password: string;
@@ -35,6 +37,7 @@ export class User extends BaseEntity {
 	@Column({ nullable: true })
 	lastName: string;
 
+	@Authorized(UserRole.super_admin)
 	@ManyToMany(() => Conversation, (conversation) => conversation.participants)
 	conversations: Conversation[];
 

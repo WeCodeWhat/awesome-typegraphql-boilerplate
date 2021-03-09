@@ -1,4 +1,4 @@
-mutation createGroupConversation($data: CreateGroupConversationInput!){
+mutation createGroupConversation($data: CreateGroupConversationDto!){
     createGroupConversation(data: $data){
         path
         message

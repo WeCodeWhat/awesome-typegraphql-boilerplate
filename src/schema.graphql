@@ -55,41 +55,41 @@ enum GroupConversationVisibility {
   private
 }
 
-type ErrorMessage {
-  path: String!
-  message: String!
-}
-
-type ChatPayload {
+type MessagePayloadSchema {
   message: String!
   sender: UserSchema!
   conversation: ConversationSchema!
 }
 
-input SendMessageInput {
+type ErrorMessage {
+  path: String!
+  message: String!
+}
+
+input SendMessageDto {
   conversationId: String!
   message: String!
 }
 
-input NewConversationMessageInput {
+input NewConversationMessageDto {
   conversationId: String!
 }
 
-input CreateDirectConversationInput {
+input CreateDirectConversationDto {
   toId: String!
 }
 
-input CreateGroupConversationInput {
+input CreateGroupConversationDto {
   name: String!
   visibility: GroupConversationVisibility!
 }
 
-input LoginInput {
+input LoginDto {
   email: String!
   password: String!
 }
 
-input RegisterInput {
+input RegisterDto {
   firstName: String!
   lastName: String!
   email: String!
@@ -106,14 +106,14 @@ type Query {
 union ConversationUnion = GroupConversationSchema | DirectConversationSchema
 
 type Mutation {
-  sendMessage(data: SendMessageInput!): ErrorMessage
-  createDirectConversation(data: CreateDirectConversationInput!): ErrorMessage
-  createGroupConversation(data: CreateGroupConversationInput!): ErrorMessage
-  login(data: LoginInput!): ErrorMessage
+  sendMessage(data: SendMessageDto!): ErrorMessage
+  createDirectConversation(data: CreateDirectConversationDto!): ErrorMessage
+  createGroupConversation(data: CreateGroupConversationDto!): ErrorMessage
+  login(data: LoginDto!): ErrorMessage
   logout: Boolean
-  register(data: RegisterInput!): ErrorMessage
+  register(data: RegisterDto!): ErrorMessage
 }
 
 type Subscription {
-  newConversationMessageAdded(data: NewConversationMessageInput!): ChatPayload
+  newConversationMessageAdded(data: NewConversationMessageDto!): MessagePayloadSchema
 }

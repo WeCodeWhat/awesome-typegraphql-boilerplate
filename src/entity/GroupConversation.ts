@@ -6,7 +6,7 @@ import {
 	JoinColumn,
 	ManyToOne,
 } from "typeorm";
-import { GroupConversationVisibility } from "../modules/shared/ConversationVisibility.enum";
+import { GroupConversationVisibility } from "../shared/ConversationVisibility.enum";
 import { Conversation } from "./Conversation";
 import { User } from "./User";
 

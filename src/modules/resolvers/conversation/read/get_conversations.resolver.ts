@@ -1,7 +1,7 @@
 import { Resolver, Query } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { Conversation } from "../../../../entity/Conversation";
-import { ConversationUnion } from "../../../shared/ConversationUnion.type";
+import { ConversationUnion } from "../../../../shared/ConversationUnion.type";
 import { ConversationRepository } from "../../../repository/conversation/ConversationRepository";
 import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
 import { GroupConversationRepository } from "../../../repository/conversation/GroupConversationRepository";

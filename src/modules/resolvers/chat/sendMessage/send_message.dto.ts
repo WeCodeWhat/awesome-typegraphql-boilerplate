@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 
 @InputType()
-export class SendMessageInput {
+export class SendMessageDto {
 	@Field()
 	conversationId: string;
 
