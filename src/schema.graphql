@@ -113,7 +113,8 @@ type Mutation {
   sendMessage(data: SendMessageDto!): ErrorMessage
   createDirectConversation(data: CreateDirectConversationDto!): ErrorMessage
   createGroupConversation(data: CreateGroupConversationDto!): ErrorMessage
-  deleteConversation(data: DeleteConversationDto!): ErrorMessage
+  deleteDirectConversation(data: DeleteConversationDto!): ErrorMessage
+  deleteGroupConversation(data: DeleteConversationDto!): ErrorMessage
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
   register(data: RegisterDto!): ErrorMessage

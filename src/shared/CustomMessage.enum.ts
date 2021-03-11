@@ -6,5 +6,6 @@ export enum CustomMessage {
 	conversationIdIsNotValid = "Conversation ID is not valid",
 	conversationHasBeenCreated = "Conversation has been created",
 	conversationIsNotExist = "This conversation is not exist",
-	userIsNotFound = "User Is Not Found",
+	userIsNotOwner = "You are not the conversation owner",
+	userIsNotFound = "User is not Found",
 }

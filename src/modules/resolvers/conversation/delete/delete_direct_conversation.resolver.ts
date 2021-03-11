@@ -7,35 +7,36 @@ import {
 	YUP_CONVERSATION_DELETE,
 } from "./delete_conversation.dto";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
-import { Conversation } from "../../../../entity/Conversation";
-import { ConversationRepository } from "../../../repository/conversation/ConversationRepository";
+import { DirectConversationRepository } from "../../../repository/conversation/DirectConversationRepository";
+import { DirectConversation } from "../../../../entity/DirectConversation";
 
-@Resolver((of) => Conversation)
-class DeleteConversation {
-	@InjectRepository(ConversationRepository)
-	private readonly conversationRepository: ConversationRepository<any>;
+@Resolver((of) => DirectConversation)
+class DeleteDirectConversation {
+	@InjectRepository(DirectConversationRepository)
+	private readonly directConversationRepository: DirectConversationRepository;
 
 	@UseMiddleware(isAuth, yupValidateMiddleware(YUP_CONVERSATION_DELETE))
 	@Mutation(() => ErrorMessage!, { nullable: true })
-	async deleteConversation(
+	async deleteDirectConversation(
 		@Arg("data") { conversationId }: DeleteConversationDto
 	) {
-		const conversation = await this.conversationRepository.findOne({
+		const conversation = await this.directConversationRepository.findOne({
 			where: {
 				id: conversationId,
 			},
 		});
+
 		if (!conversation) {
 			return {
-				path: conversationId,
+				path: "conversationId",
 				message: CustomMessage.conversationIsNotExist,
 			};
 		}
 
-		await this.conversationRepository
+		await this.directConversationRepository
 			.createQueryBuilder()
 			.delete()
-			.from(Conversation)
+			.from(DirectConversation)
 			.where("id = :id", { id: conversationId })
 			.execute();
 
@@ -43,4 +44,4 @@ class DeleteConversation {
 	}
 }
 
-export default DeleteConversation;
+export default DeleteDirectConversation;
