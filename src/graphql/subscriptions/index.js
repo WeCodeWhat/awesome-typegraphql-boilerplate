@@ -1,4 +1,4 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports.newConversationMessageAdded = fs.readFileSync(path.join(__dirname, 'newConversationMessageAdded.gql'), 'utf8');
+module.exports.newMessageSended = fs.readFileSync(path.join(__dirname, 'newMessageSended.gql'), 'utf8');

@@ -19,7 +19,7 @@ export class Message extends BaseEntity {
 	id: String;
 
 	@Field(() => User!, { nullable: true })
-	@ManyToOne(() => User)
+	@ManyToOne(() => User, { onDelete: "CASCADE" })
 	sender: User;
 
 	@Field(() => String!)
@@ -34,7 +34,9 @@ export class Message extends BaseEntity {
 	@Column("text", { nullable: false, default: new Date().toISOString() })
 	createdAt: String;
 
-	@ManyToOne(() => Conversation, (conversation) => conversation.messages)
+	@ManyToOne(() => Conversation, (conversation) => conversation.messages, {
+		onDelete: "CASCADE",
+	})
 	conversation: Conversation;
 
 	@BeforeInsert()

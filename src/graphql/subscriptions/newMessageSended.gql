@@ -1,0 +1,17 @@
+subscription newMessageSended($data: NewMessageSendedDto!){
+    newMessageSended(data: $data){
+        id
+        sender{
+            id
+            email
+            password
+            firstName
+            lastName
+            status
+            name
+        }
+        message
+        unread
+        createdAt
+    }
+}

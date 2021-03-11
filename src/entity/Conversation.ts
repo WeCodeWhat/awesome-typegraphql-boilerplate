@@ -26,7 +26,7 @@ export abstract class Conversation extends BaseEntity {
 	createdAt: string;
 
 	@Field(() => [User!])
-	@ManyToMany(() => User, (user) => user.conversations)
+	@ManyToMany(() => User, (user) => user.conversations, { onDelete: "CASCADE" })
 	@JoinTable()
 	participants: User[];
 

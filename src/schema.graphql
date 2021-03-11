@@ -4,6 +4,7 @@ type UserSchema {
   password: String!
   firstName: String!
   lastName: String!
+  conversations: [ConversationSchema!]!
   status: UserStatus!
   name: String!
 }
@@ -83,6 +84,10 @@ input CreateGroupConversationDto {
   visibility: GroupConversationVisibility!
 }
 
+input DeleteConversationDto {
+  conversationId: String!
+}
+
 input LoginDto {
   email: String!
   password: String!
@@ -108,6 +113,7 @@ type Mutation {
   sendMessage(data: SendMessageDto!): ErrorMessage
   createDirectConversation(data: CreateDirectConversationDto!): ErrorMessage
   createGroupConversation(data: CreateGroupConversationDto!): ErrorMessage
+  deleteConversation(data: DeleteConversationDto!): ErrorMessage
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
   register(data: RegisterDto!): ErrorMessage

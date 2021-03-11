@@ -38,7 +38,10 @@ export class User extends BaseEntity {
 	lastName: string;
 
 	// @Authorized(UserRole.super_admin)
-	@ManyToMany(() => Conversation, (conversation) => conversation.participants)
+	@Field(() => [Conversation]!)
+	@ManyToMany(() => Conversation, (conversation) => conversation.participants, {
+		onDelete: "CASCADE",
+	})
 	conversations: Conversation[];
 
 	@Field(() => UserStatus!)
