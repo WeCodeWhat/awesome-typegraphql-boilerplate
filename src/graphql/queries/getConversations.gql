@@ -9,6 +9,25 @@ query getConversations{
                 password
                 firstName
                 lastName
+                conversations{
+                    id
+                    createdAt
+                    participants{
+                        id
+                        email
+                        password
+                        firstName
+                        lastName
+                        status
+                        name
+                    }
+                    messages{
+                        id
+                        message
+                        unread
+                        createdAt
+                    }
+                }
                 status
                 name
             }
@@ -20,6 +39,10 @@ query getConversations{
                     password
                     firstName
                     lastName
+                    conversations{
+                        id
+                        createdAt
+                    }
                     status
                     name
                 }
@@ -34,6 +57,10 @@ query getConversations{
                 password
                 firstName
                 lastName
+                conversations{
+                    id
+                    createdAt
+                }
                 status
                 name
             }
