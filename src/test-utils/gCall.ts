@@ -1,7 +1,6 @@
 import { graphql, GraphQLSchema } from "graphql";
 import { Maybe } from "type-graphql";
 import genSchema from "../utils/genSchema";
-
 interface Options {
 	source: string;
 	variableValues?: Maybe<{
