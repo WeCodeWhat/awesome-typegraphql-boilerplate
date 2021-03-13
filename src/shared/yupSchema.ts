@@ -1,7 +1,8 @@
 import * as yup from "yup";
+import { CustomMessage } from "./CustomMessage.enum";
 
 export const sharedSchema = {
-	email: yup.string().email(),
+	email: yup.string().email(CustomMessage.inValidEmailAddress),
 	password: yup.string().min(3).max(255),
 };
 

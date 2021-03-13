@@ -3,7 +3,6 @@ import { formatYupErrors } from "./formatYupErrors";
 
 export const formatValidationError = (err: any): any[] => {
 	const validationErrors: any[] = err.extensions?.exception?.validationErrors;
-	console.log(JSON.stringify(err, null, 2));
 	const errors: ErrorMessage[] = [];
 	if (err.message?.name == "ValidationError") {
 		return formatYupErrors(err.message);
