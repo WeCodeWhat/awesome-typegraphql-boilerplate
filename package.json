@@ -42,6 +42,7 @@
 		"isomorphic-fetch": "^3.0.0",
 		"jest": "^26.6.3",
 		"merge-graphql-schemas": "^1.7.8",
+		"mock-session": "0.0.5",
 		"nodemon": "^2.0.7",
 		"pg": "^8.5.1",
 		"reflect-metadata": "^0.1.13",

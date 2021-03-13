@@ -34,4 +34,10 @@ export class TestClient {
 			.then((data) => data)
 			.catch((err) => err);
 	}
+
+	async me() {
+		return await request(this.url, GQL.queries.me)
+			.then((data) => data)
+			.catch((err) => err);
+	}
 }

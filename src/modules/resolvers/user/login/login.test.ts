@@ -82,10 +82,28 @@ testFrame(() => {
 				email: mockData.email,
 				password: mockData.password + "123",
 			});
-			expect(data.login).toEqual({
+			expect(data.login).toMatchObject({
 				message: CustomMessage.passwordIsNotMatch,
 				path: "password",
 			});
+		});
+
+		test("account is not registered", async () => {
+			const data = await client?.login({
+				email: faker.internet.email(),
+				password: mockData.password,
+			});
+			expect(data.login).toMatchObject({
+				message: CustomMessage.accountIsNotRegister,
+				path: "email",
+			});
+		});
+
+		test("get user before login", async () => {
+			const me = await client?.me();
+			expect(yupErrorResponse(me)).toEqual([
+				{ message: "not authenticated", path: "me" },
+			]);
 		});
 
 		test("login works", async () => {
