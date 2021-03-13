@@ -1,14 +1,22 @@
 import { testFrame } from "../../../../test-utils/testFrame";
 import { TestClient } from "../../../../test-utils/TestClient";
-import { login as loginMutation } from "../../../graphql/mutations";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
+import * as faker from "faker";
 
 let client: TestClient | null = null;
 
+const mockData = {
+	email: faker.internet.email(),
+	password: faker.internet.password(),
+	firstName: faker.internet.userName(),
+	lastName: faker.internet.userName(),
+};
+
 testFrame(() => {
-	beforeAll(() => {
+	beforeAll(async () => {
 		client = new TestClient("http://localhost:5000/graphql");
+		await client.register(mockData);
 	});
 
 	describe("Login test suite", () => {
@@ -67,6 +75,25 @@ testFrame(() => {
 					path: "password",
 				},
 			]);
+		});
+
+		test("password does not matched", async () => {
+			const data = await client?.login({
+				email: mockData.email,
+				password: mockData.password + "123",
+			});
+			expect(data.login).toEqual({
+				message: CustomMessage.passwordIsNotMatch,
+				path: "password",
+			});
+		});
+
+		test("login works", async () => {
+			const data = await client?.login({
+				email: mockData.email,
+				password: mockData.password,
+			});
+			expect(data.login).toBeNull();
 		});
 	});
 });
