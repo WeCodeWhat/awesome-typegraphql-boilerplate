@@ -4,8 +4,6 @@ type UserSchema {
   password: String!
   firstName: String!
   lastName: String!
-<<<<<<< HEAD
-  conversations: [ConversationSchema!]!
   status: UserStatus!
   name: String!
 }
@@ -19,91 +17,12 @@ enum UserStatus {
   silence
 }
 
-type MessageSchema {
-  id: ID!
-  sender: UserSchema
-  message: String!
-  unread: Boolean!
-  createdAt: String!
-}
-
-type ConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-}
-
-type DirectConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-}
-
-type GroupConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-  name: String!
-  owner: UserSchema!
-  visibility: GroupConversationVisibility!
-}
-
-"""The visibility mode of the group conversation"""
-enum GroupConversationVisibility {
-  public
-  private
-}
-
-type MessagePayloadSchema {
-  messageId: String!
-  conversationId: String!
-}
-
 type ErrorMessage {
-=======
-  name: String!
-}
-
-type Error {
->>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   path: String!
   message: String!
 }
 
-<<<<<<< HEAD
-input NewMessageSendedDto {
-  conversationId: String!
-}
-
-input SendMessageDto {
-  conversationId: String!
-  message: String!
-}
-
-input CreateDirectConversationDto {
-  toId: String!
-}
-
-input CreateGroupConversationDto {
-  name: String!
-  visibility: GroupConversationVisibility!
-}
-
-input DeleteConversationDto {
-  conversationId: String!
-}
-
-input GetConversationDto {
-  conversationId: String!
-}
-
 input LoginDto {
-=======
-input LoginInput {
->>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   email: String!
   password: String!
 }
@@ -120,37 +39,15 @@ input RegisterDto {
 }
 
 type Query {
-<<<<<<< HEAD
-  getConversation(data: GetConversationDto!): ConversationUnion
-  getConversations: [ConversationUnion!]!
-=======
->>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   me: UserSchema
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
 }
 
-<<<<<<< HEAD
-union ConversationUnion = GroupConversationSchema | DirectConversationSchema
 
 type Mutation {
-  sendMessage(data: SendMessageDto!): ErrorMessage
-  createDirectConversation(data: CreateDirectConversationDto!): ErrorMessage
-  createGroupConversation(data: CreateGroupConversationDto!): ErrorMessage
-  deleteDirectConversation(data: DeleteConversationDto!): ErrorMessage
-  deleteGroupConversation(data: DeleteConversationDto!): ErrorMessage
   login(data: LoginDto!): ErrorMessage
-=======
-type Mutation {
-  login(data: LoginInput!): Error
->>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   logout: Boolean
   register(data: RegisterDto!): ErrorMessage
 }
-<<<<<<< HEAD
 
-type Subscription {
-  newMessageSended(data: NewMessageSendedDto!): MessageSchema
-}
-=======
->>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e

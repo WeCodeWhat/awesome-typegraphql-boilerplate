@@ -5,29 +5,6 @@ query getUsers{
         password
         firstName
         lastName
-        conversations{
-            id
-            createdAt
-            participants{
-                id
-                email
-                password
-                firstName
-                lastName
-                conversations{
-                    id
-                    createdAt
-                    messages{
-                        id
-                        message
-                        unread
-                        createdAt
-                    }
-                }
-                status
-                name
-            }
-        }
         status
         name
     }

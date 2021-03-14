@@ -31,17 +31,4 @@ export class UserRepository extends Repository<User> {
 
 		return null;
 	}
-<<<<<<< HEAD
-
-	async findUserAndUpdateConversation(user: User, conversation: Conversation) {
-		if (user?.conversations) {
-			user?.conversations.push(conversation);
-		} else {
-			const conversations: Conversation[] = [];
-			conversations.push(conversation);
-			user.conversations = conversations;
-		}
-	}
-=======
->>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
 }

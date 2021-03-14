@@ -17,13 +17,13 @@ const mockData = {
 testFrame(() => {
 	beforeAll(async () => {
 		client = new TestClient("http://localhost:5000/graphql");
+		await client
+			?.register(mockData)
+			.then((res) => expect(res.register).toBeNull());
 	});
 
 	describe("Me test suite", () => {
-		test("get current user", async () => {
-			await client
-				?.register(mockData)
-				.then((res) => expect(res.register).toBeNull());
+		test("get current user before login", async () => {
 			await client?.me().then((res) =>
 				expect(yupErrorResponse(res)).toMatchObject([
 					{
@@ -32,6 +32,8 @@ testFrame(() => {
 					},
 				])
 			);
+		});
+		test("get current user after login", async () => {
 			await client
 				?.login({
 					email: mockData.email,
@@ -45,7 +47,6 @@ testFrame(() => {
 			});
 			await client?.me().then((res) =>
 				expect(res.me).toMatchObject({
-					conversations: [],
 					email: mockData.email,
 					firstName: mockData.firstName,
 					id: user?.id,

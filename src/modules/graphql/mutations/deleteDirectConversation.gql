@@ -1,6 +1,0 @@
-mutation deleteDirectConversation($data: DeleteConversationDto!){
-    deleteDirectConversation(data: $data){
-        path
-        message
-    }
-}
