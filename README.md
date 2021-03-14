@@ -11,9 +11,9 @@
 
 More information can be found in file ".env.example"
 
-SESSION_SECRET= *The secret key for session*
+****SESSION_SECRET**** = *The secret key for session*
   
-CLIENT_PORT= *The port of a client*
+****CLIENT_PORT**** = *The port of a client*
   
 DATABASE_URL= *This is for database in production*
   
