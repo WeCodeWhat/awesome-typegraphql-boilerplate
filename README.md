@@ -11,11 +11,11 @@
 - Class Validators: https://github.com/typestack/class-validator
 - Yup: https://github.com/jquense/yup
 
+**Testing tools:**
+
+- Jest: Unit testing & TDD https://jestjs.io/
+
 **Microservice:**
 
 - Redis: https://github.com/luin/ioredis
 - More...
-
-**Stages**
-
-- Development
