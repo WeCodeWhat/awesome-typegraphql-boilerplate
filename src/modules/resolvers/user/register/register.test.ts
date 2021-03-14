@@ -31,7 +31,6 @@ testFrame(() => {
 			});
 			expect(data.login).toBeNull();
 		});
-
 		test("account is registered", async () => {
 			const data = await client?.register(mockData);
 			expect(data.register).toMatchObject({

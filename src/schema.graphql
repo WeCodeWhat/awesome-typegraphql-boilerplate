@@ -104,7 +104,6 @@ type Query {
   getConversation(id: String!): ConversationUnion
   getConversations: [ConversationUnion!]!
   me: UserSchema
-  hello: String!
 }
 
 union ConversationUnion = GroupConversationSchema | DirectConversationSchema

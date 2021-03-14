@@ -1,8 +1,16 @@
-import { gql, request } from "graphql-request";
+import { request } from "graphql-request";
 import * as rp from "request-promise";
-import * as GQL from "../modules/graphql";
+import * as GQLModules from "../modules/graphql";
 import { LoginDto } from "../modules/resolvers/user/login/login.dto";
 import { RegisterDto } from "../modules/resolvers/user/register/register.dto";
+import * as fs from "fs";
+interface GQL {
+	mutations: any;
+	queries: any;
+	subscription: any;
+}
+
+const GQL: GQL = GQLModules;
 export class TestClient {
 	url: string;
 	options: {
@@ -19,25 +27,27 @@ export class TestClient {
 		};
 	}
 
-	async login(args: LoginDto) {
-		return await request(this.url, GQL.mutations.login, {
-			data: args,
-		})
+	async mutation<T>(resolver: string, args: T) {
+		return await request(this.url, GQL.mutations[resolver], { data: args })
 			.then((data) => data)
 			.catch((err) => err);
+	}
+
+	async query(resolver: string) {
+		return await request(this.url, GQL.queries[resolver])
+			.then((data) => data)
+			.catch((err) => err);
+	}
+
+	async login(args: LoginDto) {
+		return await this.mutation<LoginDto>("login", args);
 	}
 
 	async register(args: RegisterDto) {
-		return await request(this.url, GQL.mutations.register, {
-			data: args,
-		})
-			.then((data) => data)
-			.catch((err) => err);
+		return await this.mutation<RegisterDto>("register", args);
 	}
 
 	async me() {
-		return await request(this.url, GQL.queries.me)
-			.then((data) => data)
-			.catch((err) => err);
+		return await this.query("me");
 	}
 }

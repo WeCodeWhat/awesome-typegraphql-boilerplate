@@ -19,12 +19,6 @@ class RegisterResolver {
 	@InjectRepository(UserRepository)
 	private readonly userRepository: UserRepository;
 
-	@Query(() => String)
-	hello(@Ctx() { request }: GQLContext) {
-		console.log(request.session);
-		return "Hello World";
-	}
-
 	@UseMiddleware(yupValidateMiddleware(YUP_REGISTER))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async register(

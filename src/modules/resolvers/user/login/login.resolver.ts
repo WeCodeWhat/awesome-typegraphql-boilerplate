@@ -37,7 +37,6 @@ class LoginResolver {
 		}
 		session.userId = user.id;
 		if (request?.sessionID) {
-			console.log("redis push");
 			redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, user.id);
 		}
 		session.save();
