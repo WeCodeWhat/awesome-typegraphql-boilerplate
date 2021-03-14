@@ -88,9 +88,17 @@ input DeleteConversationDto {
   conversationId: String!
 }
 
+input GetConversationDto {
+  conversationId: String!
+}
+
 input LoginDto {
   email: String!
   password: String!
+}
+
+input GetUserDto {
+  userId: String!
 }
 
 input RegisterDto {
@@ -101,9 +109,11 @@ input RegisterDto {
 }
 
 type Query {
-  getConversation(id: String!): ConversationUnion
+  getConversation(data: GetConversationDto!): ConversationUnion
   getConversations: [ConversationUnion!]!
   me: UserSchema
+  getUser(data: GetUserDto!): UserSchema
+  getUsers: [UserSchema!]
 }
 
 union ConversationUnion = GroupConversationSchema | DirectConversationSchema

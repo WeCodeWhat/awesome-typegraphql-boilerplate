@@ -1,9 +1,9 @@
-import { request } from "graphql-request";
+import { GraphQLClient, request } from "graphql-request";
 import * as rp from "request-promise";
+import crossFetch from "cross-fetch";
 import * as GQLModules from "../modules/graphql";
 import { LoginDto } from "../modules/resolvers/user/login/login.dto";
 import { RegisterDto } from "../modules/resolvers/user/register/register.dto";
-import * as fs from "fs";
 interface GQL {
 	mutations: any;
 	queries: any;
@@ -12,42 +12,36 @@ interface GQL {
 
 const GQL: GQL = GQLModules;
 export class TestClient {
-	url: string;
-	options: {
-		jar: any;
-		json: boolean;
-		withCredentials: boolean;
-	};
+	client: GraphQLClient;
+
 	constructor(url: string) {
-		this.url = url;
-		this.options = {
-			jar: rp.jar(),
-			json: true,
-			withCredentials: true,
-		};
+		const fetch = require("fetch-cookie")(crossFetch);
+		this.client = new GraphQLClient(url, {
+			credentials: "include",
+			mode: "cors",
+			fetch,
+		});
 	}
 
 	async mutation<T>(resolver: string, args: T) {
-		return await request(this.url, GQL.mutations[resolver], { data: args })
+		return await this.client
+			.request(GQL.mutations[resolver], { data: args })
 			.then((data) => data)
 			.catch((err) => err);
 	}
 
 	async query(resolver: string) {
-		return await request(this.url, GQL.queries[resolver])
+		return await this.client
+			.request(GQL.queries[resolver])
 			.then((data) => data)
 			.catch((err) => err);
 	}
 
-	async login(args: LoginDto) {
-		return await this.mutation<LoginDto>("login", args);
-	}
+	login = async (args: LoginDto) =>
+		await this.mutation<LoginDto>("login", args);
 
-	async register(args: RegisterDto) {
-		return await this.mutation<RegisterDto>("register", args);
-	}
+	register = async (args: RegisterDto) =>
+		await this.mutation<RegisterDto>("register", args);
 
-	async me() {
-		return await this.query("me");
-	}
+	me = async () => await this.query("me");
 }
