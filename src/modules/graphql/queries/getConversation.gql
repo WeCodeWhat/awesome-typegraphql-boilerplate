@@ -1,5 +1,5 @@
-query getConversation($id: String!){
-    getConversation(id: $id){
+query getConversation($data: GetConversationDto!){
+    getConversation(data: $data){
         ... on GroupConversationSchema {
             id
             createdAt

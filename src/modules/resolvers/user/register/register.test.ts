@@ -3,6 +3,9 @@ import { TestClient } from "../../../../test-utils/TestClient";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
+import { getRepository } from "typeorm";
+import { User } from "../../../../entity/User";
+import * as bcrypt from "bcrypt";
 
 let client: TestClient | null = null;
 
@@ -22,6 +25,27 @@ testFrame(() => {
 		test("register works", async () => {
 			const data = await client?.register(mockData);
 			expect(data.register).toBeNull();
+			const user = await getRepository(User).findOne({
+				where: {
+					email: mockData.email,
+				},
+			});
+
+			expect(user).toBeDefined();
+			expect({
+				email: user?.email,
+				firstName: user?.firstName,
+				lastName: user?.lastName,
+			}).toStrictEqual({
+				email: mockData.email,
+				firstName: mockData.firstName,
+				lastName: mockData.lastName,
+			});
+			const isPasswordMatched = await bcrypt.compare(
+				mockData.password,
+				user?.password as string
+			);
+			expect(isPasswordMatched).toBe(true);
 		});
 
 		test("login to registered account", async () => {

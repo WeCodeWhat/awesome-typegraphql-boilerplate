@@ -1,9 +1,9 @@
 import { testFrame } from "../../../../test-utils/testFrame";
 import { TestClient } from "../../../../test-utils/TestClient";
-import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
 import { User } from "../../../../entity/User";
+import { getRepository } from "typeorm";
 
 let client: TestClient | null = null;
 
@@ -20,28 +20,39 @@ testFrame(() => {
 	});
 
 	describe("Me test suite", () => {
-		//FIXME session does not save userId on test server
 		test("get current user", async () => {
 			await client
 				?.register(mockData)
 				.then((res) => expect(res.register).toBeNull());
+			await client?.me().then((res) =>
+				expect(yupErrorResponse(res)).toMatchObject([
+					{
+						message: "not authenticated",
+						path: "me",
+					},
+				])
+			);
 			await client
 				?.login({
 					email: mockData.email,
 					password: mockData.password,
 				})
 				.then((res) => expect(res.login).toBeNull());
+			const user = await getRepository(User).findOne({
+				where: {
+					email: mockData.email,
+				},
+			});
 			await client?.me().then((res) =>
-				expect(res).toEqual({
+				expect(res.me).toMatchObject({
 					conversations: [],
 					email: mockData.email,
 					firstName: mockData.firstName,
-					id: "4160e62e-2e14-41fb-8d3f-3de98fbc4576",
+					id: user?.id,
 					lastName: mockData.lastName,
 					name: `${mockData.firstName} ${mockData.lastName}`,
-					password:
-						"$2b$10$vq4sRdJ3bEimiWDUm5D.eu5QENhK35d9xDZwtdlCTQNwVy7arxVJ2",
-					status: "none",
+					password: user?.password,
+					status: user?.status,
 				})
 			);
 		});

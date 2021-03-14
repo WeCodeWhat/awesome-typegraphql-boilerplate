@@ -44,4 +44,6 @@ export class TestClient {
 		await this.mutation<RegisterDto>("register", args);
 
 	me = async () => await this.query("me");
+
+	logout = async () => await this.mutation("logout", null);
 }

@@ -14,7 +14,7 @@ import { UserStatus } from "../shared/UserStatus.enum";
 import { UserRole } from "../shared/UserRole.enum";
 
 @ObjectType("UserSchema")
-@Entity("Users")
+@Entity("User")
 export class User extends BaseEntity {
 	@Field(() => ID)
 	@PrimaryColumn("uuid")

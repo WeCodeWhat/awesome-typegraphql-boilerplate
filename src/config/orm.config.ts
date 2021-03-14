@@ -12,6 +12,7 @@ export const genORMConnection = async (
 			(env(EnvironmentType.TEST) ? "-testing" : "")) as any,
 		dropSchema: env(EnvironmentType.TEST),
 		namingStrategy: new SnakeNamingStrategy(),
+		name: "default",
 		logging,
 	};
 	if (process.env.DATABASE_URL && env(EnvironmentType.PROD)) {
