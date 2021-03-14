@@ -4,6 +4,7 @@ type UserSchema {
   password: String!
   firstName: String!
   lastName: String!
+<<<<<<< HEAD
   conversations: [ConversationSchema!]!
   status: UserStatus!
   name: String!
@@ -62,10 +63,17 @@ type MessagePayloadSchema {
 }
 
 type ErrorMessage {
+=======
+  name: String!
+}
+
+type Error {
+>>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   path: String!
   message: String!
 }
 
+<<<<<<< HEAD
 input NewMessageSendedDto {
   conversationId: String!
 }
@@ -93,6 +101,9 @@ input GetConversationDto {
 }
 
 input LoginDto {
+=======
+input LoginInput {
+>>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   email: String!
   password: String!
 }
@@ -109,13 +120,17 @@ input RegisterDto {
 }
 
 type Query {
+<<<<<<< HEAD
   getConversation(data: GetConversationDto!): ConversationUnion
   getConversations: [ConversationUnion!]!
+=======
+>>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   me: UserSchema
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
 }
 
+<<<<<<< HEAD
 union ConversationUnion = GroupConversationSchema | DirectConversationSchema
 
 type Mutation {
@@ -125,10 +140,17 @@ type Mutation {
   deleteDirectConversation(data: DeleteConversationDto!): ErrorMessage
   deleteGroupConversation(data: DeleteConversationDto!): ErrorMessage
   login(data: LoginDto!): ErrorMessage
+=======
+type Mutation {
+  login(data: LoginInput!): Error
+>>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
   logout: Boolean
   register(data: RegisterDto!): ErrorMessage
 }
+<<<<<<< HEAD
 
 type Subscription {
   newMessageSended(data: NewMessageSendedDto!): MessageSchema
 }
+=======
+>>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
