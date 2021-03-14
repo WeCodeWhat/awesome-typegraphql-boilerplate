@@ -1,6 +1,8 @@
 ![boilerplate_logo](https://user-images.githubusercontent.com/56880684/110272816-a95f9880-7ffd-11eb-88fe-d0c397cbba45.png)
 
-# A backend boilerplate for GraphQL Server using TypeGraphQL
+# A backend boilerplate for GraphQL Server using TypeGraphQL [IN DEVELOPMENT]
+
+__________________________
 
 **Technologies:**
 
@@ -19,3 +21,4 @@
 
 - Redis: https://github.com/luin/ioredis
 - More...
+
