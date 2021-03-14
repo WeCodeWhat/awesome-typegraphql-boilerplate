@@ -11,27 +11,27 @@
 
 More information can be found in file ".env.example"
 
-****SESSION_SECRET**** = *The secret key for session*
+SESSION_SECRET = *The secret key for session*
   
-****CLIENT_PORT**** = *The port of a client*
+CLIENT_PORT = *The port of a client*
   
-DATABASE_URL= *This is for database in production*
+DATABASE_URL = *This is for database in production*
   
-DATABASE_HOST= *The host of database | ie: http//localhost*
+DATABASE_HOST = *The host of database | ie: http//localhost*
 
-DATABASE_USERNAME= *The username of database admin*
+DATABASE_USERNAME = *The username of database admin*
   
-DATABASE_PASSWORD= *The password of database admin*
+DATABASE_PASSWORD = *The password of database admin*
   
-REDIS_HOST= *The host of redis server | ie: localhost*
+REDIS_HOST = *The host of redis server | ie: localhost*
 
-REDIS_PORT= *The port where redis server hosted*
+REDIS_PORT = *The port where redis server hosted*
   
-REDIS_PASSWORD= *The password to connect to redis server*
+REDIS_PASSWORD = *The password to connect to redis server*
 
-SERVER_URI= *The uri of a server*
+SERVER_URI = *The uri of a server*
   
-SERVER_ENDPOINT= *The endpoint of a server*
+SERVER_ENDPOINT = *The endpoint of a server*
 
 ____________________________
 
