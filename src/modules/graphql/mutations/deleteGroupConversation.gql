@@ -1,6 +1,0 @@
-mutation deleteGroupConversation($data: DeleteConversationDto!){
-    deleteGroupConversation(data: $data){
-        path
-        message
-    }
-}

@@ -1,5 +1,4 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Conversation } from "../../../entity/Conversation";
 import { User } from "../../../entity/User";
 import { CustomMessage } from "../../../shared/CustomMessage.enum";
 
@@ -31,15 +30,5 @@ export class UserRepository extends Repository<User> {
 			.then((err) => console.log(err));
 
 		return null;
-	}
-
-	async findUserAndUpdateConversation(user: User, conversation: Conversation) {
-		if (user?.conversations) {
-			user?.conversations.push(conversation);
-		} else {
-			const conversations: Conversation[] = [];
-			conversations.push(conversation);
-			user.conversations = conversations;
-		}
 	}
 }

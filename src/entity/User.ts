@@ -9,7 +9,6 @@ import {
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
-import { Conversation } from "./Conversation";
 import { UserStatus } from "../shared/UserStatus.enum";
 import { UserRole } from "../shared/UserRole.enum";
 
@@ -36,13 +35,6 @@ export class User extends BaseEntity {
 	@Field(() => String!)
 	@Column({ nullable: true })
 	lastName: string;
-
-	// @Authorized(UserRole.super_admin)
-	@Field(() => [Conversation]!)
-	@ManyToMany(() => Conversation, (conversation) => conversation.participants, {
-		onDelete: "CASCADE",
-	})
-	conversations: Conversation[];
 
 	@Field(() => UserStatus!)
 	@Column("text", { nullable: true, default: UserStatus.none })

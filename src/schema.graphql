@@ -4,7 +4,6 @@ type UserSchema {
   password: String!
   firstName: String!
   lastName: String!
-  conversations: [ConversationSchema!]!
   status: UserStatus!
   name: String!
 }
@@ -18,78 +17,9 @@ enum UserStatus {
   silence
 }
 
-type MessageSchema {
-  id: ID!
-  sender: UserSchema
-  message: String!
-  unread: Boolean!
-  createdAt: String!
-}
-
-type ConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-}
-
-type DirectConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-}
-
-type GroupConversationSchema {
-  id: ID!
-  createdAt: String!
-  participants: [UserSchema!]!
-  messages: [MessageSchema!]!
-  name: String!
-  owner: UserSchema!
-  visibility: GroupConversationVisibility!
-}
-
-"""The visibility mode of the group conversation"""
-enum GroupConversationVisibility {
-  public
-  private
-}
-
-type MessagePayloadSchema {
-  messageId: String!
-  conversationId: String!
-}
-
 type ErrorMessage {
   path: String!
   message: String!
-}
-
-input NewMessageSendedDto {
-  conversationId: String!
-}
-
-input SendMessageDto {
-  conversationId: String!
-  message: String!
-}
-
-input CreateDirectConversationDto {
-  toId: String!
-}
-
-input CreateGroupConversationDto {
-  name: String!
-  visibility: GroupConversationVisibility!
-}
-
-input DeleteConversationDto {
-  conversationId: String!
-}
-
-input GetConversationDto {
-  conversationId: String!
 }
 
 input LoginDto {
@@ -109,26 +39,13 @@ input RegisterDto {
 }
 
 type Query {
-  getConversation(data: GetConversationDto!): ConversationUnion
-  getConversations: [ConversationUnion!]!
   me: UserSchema
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
 }
 
-union ConversationUnion = GroupConversationSchema | DirectConversationSchema
-
 type Mutation {
-  sendMessage(data: SendMessageDto!): ErrorMessage
-  createDirectConversation(data: CreateDirectConversationDto!): ErrorMessage
-  createGroupConversation(data: CreateGroupConversationDto!): ErrorMessage
-  deleteDirectConversation(data: DeleteConversationDto!): ErrorMessage
-  deleteGroupConversation(data: DeleteConversationDto!): ErrorMessage
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
   register(data: RegisterDto!): ErrorMessage
-}
-
-type Subscription {
-  newMessageSended(data: NewMessageSendedDto!): MessageSchema
 }
