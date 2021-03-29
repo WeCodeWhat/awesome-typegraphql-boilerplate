@@ -47,8 +47,8 @@ export const startServer = async () => {
 	await gql_server
 		.start(
 			{
-				// cors: corsOptions,
-				port: PORT,
+				cors: corsOptions,
+				port: env(EnvironmentType.TEST) ? 0 : PORT,
 				formatError: formatValidationError,
 				endpoint: process.env.SERVER_ENDPOINT,
 				subscriptions: {
@@ -59,22 +59,22 @@ export const startServer = async () => {
 			(options) => {
 				console.log("Bug occurs! - 46");
 
-				console.table(
-					env(EnvironmentType.PROD)
-						? {
-								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
-								ENVIRONMENT: process.env.NODE_ENV?.trim(),
-								DATABASE_URL: process.env.DATABASE_URL,
-								REDIS_HOST: process.env.REDIS_HOST,
-								REDIS_PORT: process.env.REDIS_PORT,
-						  }
-						: {
-								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
-								ENVIRONMENT: process.env.NODE_ENV?.trim(),
-								PORT: options.port,
-								DATABASE: conn.options.database,
-						  }
-				);
+				// console.table(
+				// 	env(EnvironmentType.PROD)
+				// 		? {
+				// 				ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
+				// 				ENVIRONMENT: process.env.NODE_ENV?.trim(),
+				// 				DATABASE_URL: process.env.DATABASE_URL,
+				// 				REDIS_HOST: process.env.REDIS_HOST,
+				// 				REDIS_PORT: process.env.REDIS_PORT,
+				// 		  }
+				// 		: {
+				// 				ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
+				// 				ENVIRONMENT: process.env.NODE_ENV?.trim(),
+				// 				PORT: options.port,
+				// 				DATABASE: conn.options.database,
+				// 		  }
+				// );
 			}
 		)
 		.catch((err) => console.log(err));
