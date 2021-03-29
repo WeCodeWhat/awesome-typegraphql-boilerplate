@@ -73,5 +73,8 @@
 	},
 	"resolutions": {
 		"graphql": "^15.0.0"
+	},
+	"engines": {
+		"node": "0.10.x"
 	}
 }
