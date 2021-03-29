@@ -45,35 +45,28 @@ export const startServer = async () => {
 	genREST_API(schema, gql_server.express);
 
 	await gql_server.start(
-		Object.assign(
-			{
-				cors: corsOptions,
-				port: env(EnvironmentType.TEST) ? 0 : PORT,
-				formatError: formatValidationError,
-				endpoint: process.env.SERVER_ENDPOINT,
-				subscriptions: {
-					onConnect: () => console.log("Subscription server connected!"),
-					onDisconnect: () => console.log("Subscription server disconnected!"),
-				},
+		{
+			cors: corsOptions,
+			port: env(EnvironmentType.TEST) ? 0 : PORT,
+			formatError: formatValidationError,
+			endpoint: process.env.SERVER_ENDPOINT,
+			subscriptions: {
+				onConnect: () => console.log("Subscription server connected!"),
+				onDisconnect: () => console.log("Subscription server disconnected!"),
 			},
-			env(EnvironmentType.PROD)
-				? {
-						playground: false as false,
-				  }
-				: null
-		),
+		},
 		(options) => {
 			console.table(
 				env(EnvironmentType.PROD)
 					? {
-							ENDPOINT: `${process.env.SERVER_URI}:${options.port}${process.env.SERVER_ENDPOINT}`,
+							ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 							ENVIRONMENT: process.env.NODE_ENV?.trim(),
 							DATABASE_URL: process.env.DATABASE_URL,
 							REDIS_HOST: process.env.REDIS_HOST,
 							REDIS_PORT: process.env.REDIS_PORT,
 					  }
 					: {
-							ENDPOINT: `${process.env.SERVER_URI}:${options.port}${process.env.SERVER_ENDPOINT}`,
+							ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 							ENVIRONMENT: process.env.NODE_ENV?.trim(),
 							PORT: options.port,
 							DATABASE: conn.options.database,
