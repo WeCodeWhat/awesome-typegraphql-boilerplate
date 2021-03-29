@@ -70,7 +70,9 @@
 		"serve": "SET NODE_ENV=production& ts-node src/index.ts",
 		"gen-gql": "gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
 		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e .",
-		"gen-rest-api-docs": "ts-node ./src/scripts/genOpenAPI.ts"
+		"gen-rest-api-docs": "ts-node ./src/scripts/genOpenAPI.ts",
+		"heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
+		"heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
 	},
 	"resolutions": {
 		"graphql": "^15.0.0"
