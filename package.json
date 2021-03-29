@@ -15,7 +15,6 @@
 		"ts-node-dev": "^1.1.1"
 	},
 	"dependencies": {
-		"@babel/register": "^7.13.8",
 		"@types/jest": "^26.0.20",
 		"@types/uuid": "^8.3.0",
 		"bcrypt": "^5.0.0",
@@ -46,6 +45,7 @@
 		"pg": "^8.5.1",
 		"reflect-metadata": "^0.1.13",
 		"request-promise": "^4.2.6",
+		"rimraf": "^3.0.2",
 		"sofa-api": "^0.2.3",
 		"subscriptions-transport-ws": "^0.9.18",
 		"swagger-ui-express": "^4.1.6",
@@ -61,11 +61,11 @@
 		"yup": "^0.32.8"
 	},
 	"scripts": {
-		"start": "node dist/src/index.js",
+		"start": "SET NODE_ENV=production& npm run build & node dist/src/index.js",
 		"dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
 		"dev:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
 		"test": "jest --watch --runInBand",
-		"build": "tsc",
+		"build": "rimraf ./dist & tsc",
 		"watch": "tsc -w",
 		"serve": "SET NODE_ENV=production& ts-node src/index.ts",
 		"gen-gql": "gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
