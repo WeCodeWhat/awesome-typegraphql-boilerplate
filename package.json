@@ -1,5 +1,5 @@
 {
-	"name": "graphql-apollo-ts",
+	"name": "ramen",
 	"version": "0.0.1",
 	"main": "dist/index",
 	"typings": "dist/index",
@@ -73,8 +73,5 @@
 	},
 	"resolutions": {
 		"graphql": "^15.0.0"
-	},
-	"engines": {
-		"node": "0.10.x"
 	}
 }
