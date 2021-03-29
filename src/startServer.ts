@@ -44,12 +44,11 @@ export const startServer = async () => {
 
 	genREST_API(schema, gql_server.express);
 
-	console.log("Bug occurs! - 46");
 	await gql_server
 		.start(
 			{
-				cors: corsOptions,
-				port: env(EnvironmentType.TEST) ? 0 : PORT,
+				// cors: corsOptions,
+				port: PORT,
 				formatError: formatValidationError,
 				endpoint: process.env.SERVER_ENDPOINT,
 				subscriptions: {
@@ -58,6 +57,8 @@ export const startServer = async () => {
 				},
 			},
 			(options) => {
+				console.log("Bug occurs! - 46");
+
 				console.table(
 					env(EnvironmentType.PROD)
 						? {
