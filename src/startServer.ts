@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import "dotenv/config";
 import { GraphQLServer } from "graphql-yoga";
-import genSchema from "./utils/genSchema";
+import { genSchema } from "./utils/genSchema";
 import { sessionConfiguration } from "./helper/session";
 import { REDIS } from "./helper/redis";
 import { DEV_BASE_URL } from "./constants/global-variables";

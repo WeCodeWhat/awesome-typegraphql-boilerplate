@@ -7,7 +7,7 @@ import { customAuthChecker } from "./authChecker";
 import { ResolveTime } from "../modules/middleware";
 import * as User from "../modules/resolvers/user";
 
-const genSchema = async (): Promise<GraphQLSchema> => {
+export const genSchema = async (): Promise<GraphQLSchema> => {
 	// const modulePath = "../modules/**/*.resolver.{ts,js}";
 	// path.join(__dirname + modulePath)
 	const schema = await buildSchema({
@@ -26,5 +26,3 @@ const genSchema = async (): Promise<GraphQLSchema> => {
 
 	return schema;
 };
-
-export default genSchema;
