@@ -47,34 +47,32 @@ export const startServer = async () => {
 	await gql_server
 		.start(
 			{
-				cors: corsOptions,
+				// cors: corsOptions,
 				port: env(EnvironmentType.TEST) ? 0 : PORT,
-				formatError: formatValidationError,
-				endpoint: process.env.SERVER_ENDPOINT,
-				subscriptions: {
-					onConnect: () => console.log("Subscription server connected!"),
-					onDisconnect: () => console.log("Subscription server disconnected!"),
-				},
+				// formatError: formatValidationError,
+				// endpoint: process.env.SERVER_ENDPOINT,
+				// subscriptions: {
+				// 	onConnect: () => console.log("Subscription server connected!"),
+				// 	onDisconnect: () => console.log("Subscription server disconnected!"),
+				// },
 			},
 			(options) => {
-				console.log("Bug occurs! - 46");
-
-				// console.table(
-				// 	env(EnvironmentType.PROD)
-				// 		? {
-				// 				ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
-				// 				ENVIRONMENT: process.env.NODE_ENV?.trim(),
-				// 				DATABASE_URL: process.env.DATABASE_URL,
-				// 				REDIS_HOST: process.env.REDIS_HOST,
-				// 				REDIS_PORT: process.env.REDIS_PORT,
-				// 		  }
-				// 		: {
-				// 				ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
-				// 				ENVIRONMENT: process.env.NODE_ENV?.trim(),
-				// 				PORT: options.port,
-				// 				DATABASE: conn.options.database,
-				// 		  }
-				// );
+				console.table(
+					env(EnvironmentType.PROD)
+						? {
+								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
+								ENVIRONMENT: process.env.NODE_ENV?.trim(),
+								DATABASE_URL: process.env.DATABASE_URL,
+								REDIS_HOST: process.env.REDIS_HOST,
+								REDIS_PORT: process.env.REDIS_PORT,
+						  }
+						: {
+								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
+								ENVIRONMENT: process.env.NODE_ENV?.trim(),
+								PORT: options.port,
+								DATABASE: conn.options.database,
+						  }
+				);
 			}
 		)
 		.catch((err) => console.log(err));
