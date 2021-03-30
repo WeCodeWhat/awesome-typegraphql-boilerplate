@@ -47,14 +47,14 @@ export const startServer = async () => {
 	await gql_server
 		.start(
 			{
-				// cors: corsOptions,
+				cors: corsOptions,
 				port: env(EnvironmentType.TEST) ? 0 : PORT,
-				// formatError: formatValidationError,
+				formatError: formatValidationError,
 				// endpoint: process.env.SERVER_ENDPOINT,
-				// subscriptions: {
-				// 	onConnect: () => console.log("Subscription server connected!"),
-				// 	onDisconnect: () => console.log("Subscription server disconnected!"),
-				// },
+				subscriptions: {
+					onConnect: () => console.log("Subscription server connected!"),
+					onDisconnect: () => console.log("Subscription server disconnected!"),
+				},
 			},
 			(options) => {
 				console.table(
