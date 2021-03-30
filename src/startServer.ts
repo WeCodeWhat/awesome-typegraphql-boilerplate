@@ -50,11 +50,11 @@ export const startServer = async () => {
 				cors: corsOptions,
 				port: env(EnvironmentType.TEST) ? 0 : PORT,
 				formatError: formatValidationError,
-				// endpoint: process.env.SERVER_ENDPOINT,
 				subscriptions: {
 					onConnect: () => console.log("Subscription server connected!"),
 					onDisconnect: () => console.log("Subscription server disconnected!"),
 				},
+				playground: (env(EnvironmentType.PROD) ? false : null) as any,
 			},
 			(options) => {
 				console.table(
