@@ -11,12 +11,18 @@ import { GQLContext } from "./utils/graphql-utils";
 import { ContextParameters } from "graphql-yoga/dist/types";
 import { genORMConnection } from "./config/orm.config";
 import { printSchema } from "graphql";
-import * as morgan from "morgan";
 import { genREST_API } from "./utils/genREST";
 import { logger } from "./config/winston.config";
+import NodeMailerService from "./helper/email";
 import * as fs from "fs";
 
 export const startServer = async () => {
+	await new NodeMailerService().sendEmail(
+		"bob@bob.com",
+		"Forgot Password",
+		"Hello World"
+	);
+
 	if (!env(EnvironmentType.PROD)) {
 		await new REDIS().server.flushall();
 	}
