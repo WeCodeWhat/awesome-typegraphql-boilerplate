@@ -15,6 +15,7 @@ const mockData: RegisterDto = {
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
+	phoneNumber: faker.phone.phoneNumber(),
 };
 
 testFrame(() => {
@@ -34,10 +35,12 @@ testFrame(() => {
 					password: "123",
 				})
 			).toEqual({
-				login: {
-					message: CustomMessage.accountIsNotRegister,
-					path: "email",
-				},
+				login: [
+					{
+						message: CustomMessage.accountIsNotRegister,
+						path: "email",
+					},
+				],
 			});
 		});
 
@@ -89,10 +92,12 @@ testFrame(() => {
 				email: mockData.email,
 				password: mockData.password + "123",
 			});
-			expect(data.login).toMatchObject({
-				message: CustomMessage.passwordIsNotMatch,
-				path: "password",
-			});
+			expect(data.login).toMatchObject([
+				{
+					message: CustomMessage.passwordIsNotMatch,
+					path: "password",
+				},
+			]);
 		});
 
 		test("account is not registered", async () => {
@@ -100,10 +105,12 @@ testFrame(() => {
 				email: faker.internet.email(),
 				password: mockData.password,
 			});
-			expect(data.login).toMatchObject({
-				message: CustomMessage.accountIsNotRegister,
-				path: "email",
-			});
+			expect(data.login).toMatchObject([
+				{
+					message: CustomMessage.accountIsNotRegister,
+					path: "email",
+				},
+			]);
 		});
 
 		test("get user before login", async () => {
@@ -128,10 +135,12 @@ testFrame(() => {
 					password: mockData.password,
 				})
 				.then((res) =>
-					expect(res.login).toMatchObject({
-						message: CustomMessage.userHasLoggedIn,
-						path: "login",
-					})
+					expect(res.login).toMatchObject([
+						{
+							message: CustomMessage.userHasLoggedIn,
+							path: "login",
+						},
+					])
 				);
 		});
 

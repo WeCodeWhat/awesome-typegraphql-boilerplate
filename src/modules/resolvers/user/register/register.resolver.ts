@@ -32,6 +32,13 @@ class RegisterResolver {
 			});
 		}
 
+		if (!!(await this.userRepository.findByPhoneNumber(dto.phoneNumber))) {
+			errors.push({
+				path: "phoneNumber",
+				message: CustomMessage.phoneNumberIsTaken,
+			});
+		}
+
 		if (errors.length != 0) return errors;
 
 		await this.userRepository

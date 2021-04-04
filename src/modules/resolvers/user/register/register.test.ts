@@ -17,6 +17,7 @@ const mockData: RegisterDto = {
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
+	phoneNumber: faker.phone.phoneNumber(),
 };
 // TODO username test
 testFrame(() => {
@@ -143,6 +144,7 @@ testFrame(() => {
 				firstName: "",
 				lastName: "",
 				username: "tin123",
+				phoneNumber: faker.phone.phoneNumber(),
 			});
 			expect(yupErrorResponse(data)).toEqual([
 				{

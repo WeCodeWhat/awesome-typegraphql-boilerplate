@@ -12,6 +12,10 @@ export class UserRepository extends Repository<User> {
 	}
 
 	async findByPhoneNumber(phoneNumber: string | undefined) {
-		return await this.findOne({ where: {} }); //TODO phonenumber find
+		return await this.findOne({
+			where: {
+				phoneNumber,
+			},
+		});
 	}
 }

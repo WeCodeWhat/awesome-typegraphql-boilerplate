@@ -17,31 +17,53 @@ class LoginResolver {
 	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(yupValidateMiddleware(YUP_LOGIN))
-	@Mutation(() => ErrorMessage!, { nullable: true })
+	@Mutation(() => [ErrorMessage]!, { nullable: true })
 	async login(
 		@Arg("data") { email, password }: LoginDto,
 		@Ctx() { request, session, redis }: GQLContext
 	) {
-		const user = await this.userRepository.findByEmail(email);
+		let errors: ErrorMessage[] = [];
+		let user = await this.userRepository.findByEmail(email);
+
 		if (!user) {
-			return {
+			errors.push({
 				path: "email",
 				message: CustomMessage.accountIsNotRegister,
-			};
+			});
 		}
+		user = user as User;
+
 		const passwordMatch = await bcrypt.compare(password, user.password);
+
 		if (!passwordMatch) {
-			return {
+			errors.push({
 				path: "password",
 				message: CustomMessage.passwordIsNotMatch,
-			};
+			});
 		}
+
+		if (!user.isVerified) {
+			errors.push({
+				path: "isVerified",
+				message: CustomMessage.userIsNotVerified,
+			});
+		}
+
+		if (user.isBanned) {
+			errors.push({
+				path: "isBanned",
+				message: CustomMessage.userIsBanned,
+			});
+		}
+
 		if (session.userId) {
-			return {
+			errors.push({
 				path: "login",
 				message: CustomMessage.userHasLoggedIn,
-			};
+			});
 		}
+
+		if (errors.length !== 0) return errors;
 
 		session.userId = user.id;
 
