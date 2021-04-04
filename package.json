@@ -74,6 +74,7 @@
 		"dev:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
 		"test": "jest --watch --runInBand",
 		"build": "rimraf ./dist & tsc",
+		"heroku-deploy": "npm run build & git push heroku master",
 		"watch": "tsc -w",
 		"gen-gql": "rimraf ./modules/graphql & gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
 		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e ."
