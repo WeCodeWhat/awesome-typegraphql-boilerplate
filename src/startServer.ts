@@ -47,7 +47,7 @@ export const startServer = async () => {
 	const corsOptions = { credentials: true, origin: DEV_BASE_URL };
 	server.express.use(sessionConfiguration);
 
-	// genREST_API(schema, server.express);
+	genREST_API(schema, server.express);
 	genAPIDocument(server.express);
 
 	const PORT = process.env.PORT || 5000;
