@@ -17,53 +17,52 @@ class LoginResolver {
 	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(yupValidateMiddleware(YUP_LOGIN))
-	@Mutation(() => [ErrorMessage]!, { nullable: true })
+	@Mutation(() => ErrorMessage!, { nullable: true })
 	async login(
 		@Arg("data") { email, password }: LoginDto,
 		@Ctx() { request, session, redis }: GQLContext
 	) {
-		let errors: ErrorMessage[] = [];
 		let user = await this.userRepository.findByEmail(email);
 
 		if (!user) {
-			errors.push({
+			return {
 				path: "email",
 				message: CustomMessage.accountIsNotRegister,
-			});
+			};
 		}
+
 		user = user as User;
+
+		if (!user.isVerified) {
+			return {
+				path: "isVerified",
+				message: CustomMessage.userIsNotVerified,
+			};
+		}
+
+		if (user.isBanned) {
+			return {
+				path: "isBanned",
+				message: CustomMessage.userIsBanned,
+			};
+		}
+		//TODO Check banned
 
 		const passwordMatch = await bcrypt.compare(password, user.password);
 
 		if (!passwordMatch) {
-			errors.push({
+			return {
 				path: "password",
 				message: CustomMessage.passwordIsNotMatch,
-			});
-		}
-
-		if (!user.isVerified) {
-			errors.push({
-				path: "isVerified",
-				message: CustomMessage.userIsNotVerified,
-			});
-		}
-
-		if (user.isBanned) {
-			errors.push({
-				path: "isBanned",
-				message: CustomMessage.userIsBanned,
-			});
+			};
 		}
 
 		if (session.userId) {
-			errors.push({
+			return {
 				path: "login",
 				message: CustomMessage.userHasLoggedIn,
-			});
+			};
 		}
-
-		if (errors.length !== 0) return errors;
 
 		session.userId = user.id;
 

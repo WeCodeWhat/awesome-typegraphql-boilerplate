@@ -14,32 +14,28 @@ class RegisterResolver {
 	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(yupValidateMiddleware(YUP_REGISTER))
-	@Mutation(() => [ErrorMessage]!, { nullable: true })
+	@Mutation(() => ErrorMessage!, { nullable: true })
 	async register(@Arg("data") dto: RegisterDto) {
-		let errors: ErrorMessage[] = [];
-
 		if (!!(await this.userRepository.findByEmail(dto.email))) {
-			errors.push({
+			return {
 				path: "email",
 				message: CustomMessage.emailIsRegister,
-			});
+			};
 		}
 
 		if (!!(await this.userRepository.findByUsername(dto.username))) {
-			errors.push({
+			return {
 				path: "username",
 				message: CustomMessage.usernameIsTaken,
-			});
+			};
 		}
 
 		if (!!(await this.userRepository.findByPhoneNumber(dto.phoneNumber))) {
-			errors.push({
+			return {
 				path: "phoneNumber",
 				message: CustomMessage.phoneNumberIsTaken,
-			});
+			};
 		}
-
-		if (errors.length != 0) return errors;
 
 		await this.userRepository
 			.create(dto)

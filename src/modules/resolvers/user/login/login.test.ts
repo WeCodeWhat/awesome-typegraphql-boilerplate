@@ -4,6 +4,9 @@ import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
 import { RegisterDto } from "../register/register.dto";
+import { getRepository } from "typeorm";
+import { User } from "../../../../entity/User";
+import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 
 let client1: TestClient | null = null;
 
@@ -28,20 +31,74 @@ testFrame(() => {
 	});
 
 	describe("Login test suite", () => {
+		test("account is not verified", async () => {
+			await client1?.user
+				.login({ email: mockData.email, password: mockData.password })
+				.then((res) =>
+					expect(res.login).toEqual({
+						message: CustomMessage.userIsNotVerified,
+						path: "isVerified",
+					})
+				);
+		});
+		test("verify account", async () => {
+			await getRepository(User).update(
+				{ email: mockData.email },
+				{ isVerified: true }
+			);
+
+			await getRepository(User)
+				.findOne({ where: { email: mockData.email } })
+				.then((res) =>
+					expect(res).toMatchObject({
+						isVerified: true,
+					})
+				);
+		});
+
+		test("account is banned", async () => {
+			const tempData = {
+				email: faker.internet.email(),
+				password: faker.internet.password(),
+				firstName: faker.internet.userName(),
+				lastName: faker.internet.userName(),
+				username: faker.internet.userName(),
+				phoneNumber: faker.phone.phoneNumber(),
+			};
+			await client1?.user.register(tempData);
+			await getRepository(User).update(
+				{
+					email: tempData.email,
+				},
+				{
+					isVerified: true,
+					isBanned: true,
+				}
+			);
+			await client1?.user
+				.login({ email: tempData.email, password: tempData.password })
+				.then((res) =>
+					expect(res.login).toStrictEqual({
+						message: CustomMessage.userIsBanned,
+						path: "isBanned",
+					})
+				);
+		});
+
 		test("account is not register", async () => {
-			expect(
-				await client1?.user.login({
+			await client1?.user
+				.login({
 					email: "tin@email.com",
-					password: "123",
+					password: "123456",
 				})
-			).toEqual({
-				login: [
-					{
-						message: CustomMessage.accountIsNotRegister,
-						path: "email",
-					},
-				],
-			});
+				.then((res) =>
+					expect(res).toStrictEqual({
+						login: {
+							message: CustomMessage.accountIsNotRegister,
+							path: "email",
+						},
+					})
+				);
 		});
 
 		test("[Yup] invalid email address", async () => {
@@ -92,12 +149,10 @@ testFrame(() => {
 				email: mockData.email,
 				password: mockData.password + "123",
 			});
-			expect(data.login).toMatchObject([
-				{
-					message: CustomMessage.passwordIsNotMatch,
-					path: "password",
-				},
-			]);
+			expect(data.login).toMatchObject({
+				message: CustomMessage.passwordIsNotMatch,
+				path: "password",
+			});
 		});
 
 		test("account is not registered", async () => {
@@ -105,12 +160,10 @@ testFrame(() => {
 				email: faker.internet.email(),
 				password: mockData.password,
 			});
-			expect(data.login).toMatchObject([
-				{
-					message: CustomMessage.accountIsNotRegister,
-					path: "email",
-				},
-			]);
+			expect(data.login).toMatchObject({
+				message: CustomMessage.accountIsNotRegister,
+				path: "email",
+			});
 		});
 
 		test("get user before login", async () => {
@@ -135,12 +188,10 @@ testFrame(() => {
 					password: mockData.password,
 				})
 				.then((res) =>
-					expect(res.login).toMatchObject([
-						{
-							message: CustomMessage.userHasLoggedIn,
-							path: "login",
-						},
-					])
+					expect(res.login).toMatchObject({
+						message: CustomMessage.userHasLoggedIn,
+						path: "login",
+					})
 				);
 		});
 

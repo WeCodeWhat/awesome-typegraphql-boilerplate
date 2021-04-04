@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "../../../entity/User";
+import { BlackList } from "../../../entity/BlackList";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -17,5 +18,15 @@ export class UserRepository extends Repository<User> {
 				phoneNumber,
 			},
 		});
+	}
+
+	async checkBanned(phoneNumber: string | undefined) {
+		const isInBlackList = await BlackList.findOneOrFail({
+			where: {
+				phoneNumber,
+			},
+		});
+
+		return isInBlackList;
 	}
 }
