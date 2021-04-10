@@ -27,7 +27,7 @@ export class User extends BaseEntity {
 	username: string;
 
 	@Field(() => Boolean!)
-	@Column("bool", { default: !env(EnvironmentType.DEV) })
+	@Column("bool", { default: true })
 	isVerified: boolean;
 
 	@Field(() => Boolean!)

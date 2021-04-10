@@ -18,6 +18,7 @@ import { genAPIDocument } from "./utils/genAPIDocument";
 import * as fs from "fs";
 import * as express from "express";
 import * as cookieParser from "cookie-parser";
+import { DEV_BASE_URL } from "./constants/global-variables";
 
 export const startServer = async () => {
 	if (!env(EnvironmentType.PROD)) {
@@ -43,11 +44,11 @@ export const startServer = async () => {
 	server.express.use(sessionConfiguration);
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
-	if (env(EnvironmentType.PROD)) {
-		server.express.set("trust proxy", 1);
-	}
 
-	const corsOptions = { credentials: env(EnvironmentType.PROD), origin: "*" };
+	const corsOptions = {
+		credentials: true,
+		origin: DEV_BASE_URL,
+	};
 
 	genREST_API(schema, server.express);
 	genAPIDocument(server.express);
@@ -58,7 +59,7 @@ export const startServer = async () => {
 		.start(
 			Object.assign(
 				{
-					cors: corsOptions as any,
+					cors: corsOptions,
 					port: env(EnvironmentType.TEST) ? 8080 : PORT,
 					formatError: formatValidationError,
 					subscriptions: {

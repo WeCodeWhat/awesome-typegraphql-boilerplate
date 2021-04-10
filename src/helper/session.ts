@@ -12,11 +12,10 @@ export const sessionConfiguration = session({
 	resave: false,
 	saveUninitialized: false,
 	store: initializeRedisStore(session),
-	proxy: undefined,
-	rolling: true,
 	cookie: {
-		httpOnly: env(EnvironmentType.PROD),
+		httpOnly: true,
 		secure: env(EnvironmentType.PROD),
 		maxAge: 1000 * 60 * 60 * 24 * 7,
+		sameSite: "lax",
 	},
 });
