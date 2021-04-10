@@ -4,7 +4,7 @@ import { GraphQLServer, Options } from "graphql-yoga";
 import { genSchema } from "./utils/genSchema";
 import { sessionConfiguration } from "./helper/session";
 import { REDIS } from "./helper/redis";
-import { DEV_BASE_URL } from "./constants/global-variables";
+// import { DEV_BASE_URL } from "./constants/global-variables";
 import { env, EnvironmentType } from "./utils/environmentType";
 import { formatValidationError } from "./utils/formatValidationError";
 import { GQLContext } from "./utils/graphql-utils";
@@ -13,10 +13,11 @@ import { genORMConnection } from "./config/orm.config";
 import { printSchema } from "graphql";
 import { genREST_API } from "./utils/genREST";
 import { logger } from "./config/winston.config";
-import NodeMailerService from "./helper/email";
+// import NodeMailerService from "./helper/email";
 import { genAPIDocument } from "./utils/genAPIDocument";
 import * as fs from "fs";
 import * as express from "express";
+import * as cookieParser from "cookie-parser";
 
 export const startServer = async () => {
 	if (!env(EnvironmentType.PROD)) {
@@ -38,13 +39,15 @@ export const startServer = async () => {
 			url: request?.protocol + "://" + request?.get("host"),
 		}),
 	} as any);
-
-	const corsOptions = { credentials: true, origin: DEV_BASE_URL };
-
+	server.express.use(cookieParser());
 	server.express.use(sessionConfiguration);
-
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
+	if (env(EnvironmentType.PROD)) {
+		server.express.set("trust proxy", 1);
+	}
+
+	const corsOptions = { credentials: env(EnvironmentType.PROD), origin: "*" };
 
 	genREST_API(schema, server.express);
 	genAPIDocument(server.express);
@@ -55,7 +58,7 @@ export const startServer = async () => {
 		.start(
 			Object.assign(
 				{
-					cors: corsOptions,
+					cors: corsOptions as any,
 					port: env(EnvironmentType.TEST) ? 8080 : PORT,
 					formatError: formatValidationError,
 					subscriptions: {

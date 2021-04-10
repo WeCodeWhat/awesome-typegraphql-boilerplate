@@ -1,5 +1,6 @@
 import { GraphQLSchema } from "graphql";
 import sofa, { OpenAPI } from "sofa-api";
+import { env, EnvironmentType } from "./environmentType";
 
 export const genREST_API = (schema: GraphQLSchema, app: any) => {
 	const REST_ENDPOINT: string = "/api";

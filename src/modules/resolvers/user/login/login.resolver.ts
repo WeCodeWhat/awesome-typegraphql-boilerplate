@@ -57,7 +57,7 @@ class LoginResolver {
 			};
 		}
 
-		if (session.userId) {
+		if (session?.userId) {
 			return {
 				path: "login",
 				message: CustomMessage.userHasLoggedIn,
