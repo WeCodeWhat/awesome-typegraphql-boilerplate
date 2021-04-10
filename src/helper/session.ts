@@ -1,6 +1,6 @@
 import * as session from "express-session";
 import "dotenv/config";
-// import { env, EnvironmentType } from "../utils/environmentType";
+import { env, EnvironmentType } from "../utils/environmentType";
 import { initializeRedisStore } from "./redis";
 
 //FIXME Must change the graphql playground "credential" from "omit" to "include"
@@ -14,7 +14,7 @@ export const sessionConfiguration = session({
 	store: initializeRedisStore(session),
 	cookie: {
 		httpOnly: true,
-		secure: false,
+		secure: env(EnvironmentType.PROD),
 		maxAge: 1000 * 60 * 60 * 24 * 7,
 		sameSite: "lax",
 	},

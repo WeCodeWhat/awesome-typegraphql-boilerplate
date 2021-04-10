@@ -17,7 +17,6 @@ import { logger } from "./config/winston.config";
 import { genAPIDocument } from "./utils/genAPIDocument";
 import * as fs from "fs";
 import * as express from "express";
-import * as cookieParser from "cookie-parser";
 import { DEV_BASE_URL } from "./constants/global-variables";
 
 export const startServer = async () => {
@@ -40,7 +39,7 @@ export const startServer = async () => {
 			url: request?.protocol + "://" + request?.get("host"),
 		}),
 	} as any);
-	server.express.use(cookieParser());
+
 	server.express.use(sessionConfiguration);
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
