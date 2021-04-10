@@ -13,7 +13,7 @@ export const sessionConfiguration = session({
 	saveUninitialized: false,
 	store: initializeRedisStore(session),
 	cookie: {
-		httpOnly: true,
+		httpOnly: !env(EnvironmentType.PROD),
 		secure: env(EnvironmentType.PROD),
 		maxAge: 1000 * 60 * 60 * 24 * 7,
 		sameSite: "lax",
