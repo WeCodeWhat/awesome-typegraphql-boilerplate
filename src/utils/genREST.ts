@@ -1,5 +1,5 @@
 import { GraphQLSchema } from "graphql";
-import { OpenAPI, useSofa } from "sofa-api";
+import sofa, { OpenAPI } from "sofa-api";
 
 export const genREST_API = (schema: GraphQLSchema, app: any) => {
 	const REST_ENDPOINT: string = "/api";
@@ -14,7 +14,7 @@ export const genREST_API = (schema: GraphQLSchema, app: any) => {
 
 	app.use(
 		REST_ENDPOINT,
-		useSofa({
+		sofa({
 			schema,
 			onRoute(info) {
 				openApi.addRoute(info, {

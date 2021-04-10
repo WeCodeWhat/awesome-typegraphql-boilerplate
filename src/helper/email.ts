@@ -5,7 +5,6 @@ import {
 	EMAIL_CONFIRM_PREFIX,
 	FORGOT_PASSWORD_PREFIX,
 } from "../constants/global-variables";
-import { env, EnvironmentType } from "../utils/environmentType";
 import { EmailService } from "./i_email";
 
 export default class NodeMailerService implements EmailService {
@@ -22,7 +21,7 @@ export default class NodeMailerService implements EmailService {
 		let transporter = nodemailer.createTransport({
 			host: "smtp.ethereal.email",
 			port: 587,
-			secure: env(EnvironmentType.PROD), // true for 465, false for other ports
+			secure: false, // true for 465, false for other ports
 			auth: {
 				user: AUTH_ACCOUNT.user, // generated ethereal user
 				pass: AUTH_ACCOUNT.pass, // generated ethereal password
