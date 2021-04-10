@@ -27,6 +27,9 @@ export default class NodeMailerService implements EmailService {
 				user: AUTH_ACCOUNT.user, // generated ethereal user
 				pass: AUTH_ACCOUNT.pass, // generated ethereal password
 			},
+			tls: {
+				rejectUnauthorized: false,
+			},
 		});
 
 		let info = await transporter.sendMail({
