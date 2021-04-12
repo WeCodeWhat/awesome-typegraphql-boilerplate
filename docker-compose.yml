@@ -4,8 +4,11 @@ services:
   redis:
     container_name: "redis"
     image: redis:alpine
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
     ports:
       - 6379:6379
+    expose:
+      - 6379
 
   db:
     image: postgres
@@ -15,11 +18,18 @@ services:
       POSTGRES_PASSWORD: Cqt20011101
     ports:
       - 5432:5432
+    expose:
+      - 5432
 
-  node:
+  web:
     image: "ramen/topping:1.0"
     depends_on:
       - db
       - redis
+    environment:
+      NODE_ENV: staging
+      DB_HOST: db
+      REDIS_HOST: redis
     ports:
       - 5000:5000
+    command: ["./wait-for-it.sh", "db:5432", "--", "node", "index.js"]
